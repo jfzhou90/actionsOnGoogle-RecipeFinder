@@ -19,26 +19,11 @@ module.exports = app => {
       }
     };
 
-    if(request.actions == "input.queryrecipe") {
+    if (request.actions == "input.queryrecipe") {
       reply.payload.google.richResponse.items[0].simpleResponse.textToSpeech = "Response 2";
     }
 
-    
-    return response.json({
-      "payload": {
-        "google": {
-          "expectUserResponse": true,
-          "richResponse": {
-            "items": [
-              {
-                "simpleResponse": {
-                  "textToSpeech": "this is a simple response"
-                }
-              }
-            ]
-          }
-        }
-      }
-    });
+
+    return response.json(reply);
   })
 }
