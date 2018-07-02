@@ -19,8 +19,8 @@ module.exports = app => {
       }
     };
 
-    if (request) {
-      console.log(request);
+    if (request.body.queryResult.action) {
+      console.log(request.body.queryResult.action);
       // reply.payload.google.richResponse.items[0].simpleResponse["textToSpeech"] = "Response 2";
     }
 
