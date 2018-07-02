@@ -22,7 +22,7 @@ module.exports = app => {
     };
 
     if (request.body.queryResult.action == 'input.queryrecipe') {
-      console.log(request.body.originalDetectIntentRequest.payload.user.userId);
+      console.log(request.body.originalDetectIntentRequest.payload);
       reply.payload.google.richResponse.items[0].simpleResponse["textToSpeech"] = "Response 2";
     }
 
