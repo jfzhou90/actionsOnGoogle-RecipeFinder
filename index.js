@@ -13,6 +13,18 @@ app.use(
 
 app.use(bodyParser.json());
 
+app.use(function(request, response, next) {
+  response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-Authentication");
+  response.header("Access-Control-Allow-Origin", "*");
+  
+  // Pre-flight Request
+  if ('OPTIONS' == request.method) {
+      return response.status(200).send();
+  }
+
+  next();
+});
+
 require('./routes/dialogFlowRoutes')(app);
 
 
