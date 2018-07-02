@@ -10,7 +10,7 @@ module.exports = app => {
             "items": [
               {
                 "simpleResponse": {
-                  "textToSpeech": "Reponse 1"
+                  "textToSpeech": "Response 1"
                 }
               }
             ]
@@ -19,7 +19,7 @@ module.exports = app => {
       }
     };
 
-    if (request.actions == "input.queryrecipe") {
+    if (request.queryResult.actions == "input.queryrecipe") {
       reply.payload.google.richResponse.items[0].simpleResponse.textToSpeech = "Response 2";
     }
 
