@@ -14,7 +14,7 @@ app.use(
 
 app.use(bodyParser.json());
 
-// require('./routes/dialogFlowRoutes')(app);
+require('./routes/dialogFlowRoutes')(app);
 
 app.listen(process.env.PORT || 8000, function() {
     fakeData.initializeData();
