@@ -4,7 +4,8 @@
   "description": "an app that allows google to read recipes on mobile devices",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm start"
   },
   "author": "Joey Zhou",
   "license": "ISC",
