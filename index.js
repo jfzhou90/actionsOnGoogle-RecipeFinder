@@ -27,10 +27,7 @@ app.use(function(request, response, next) {
 
 require('./routes/dialogFlowRoutes')(app);
 
-
-const PORT = process.env.PORT || 8000
-app.listen(PORT)
-// app.listen(process.env.PORT || 8000, function () {
-//   fakeData.initializeData();
-//   console.log(`Server up and listening on ${process.env.PORT || 8000} `);
-// });
+app.listen(process.env.PORT || 8000, function () {
+  fakeData.initializeData();
+  console.log(`Server up and listening on ${process.env.PORT || 8000} `);
+});
