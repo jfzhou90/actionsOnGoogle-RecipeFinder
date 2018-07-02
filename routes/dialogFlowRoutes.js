@@ -19,9 +19,9 @@ module.exports = app => {
       }
     };
 
-    if (request.queryResult.actions == "input.queryrecipe") {
+    if (request) {
       console.log(request);
-      reply.payload.google.richResponse.items[0].simpleResponse["textToSpeech"] = "Response 2";
+      // reply.payload.google.richResponse.items[0].simpleResponse["textToSpeech"] = "Response 2";
     }
 
 
