@@ -1,0 +1,16 @@
+{
+  "name": "actionongoogle-server",
+  "version": "1.0.0",
+  "description": "an app that allows google to read recipes on mobile devices",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Joey Zhou",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.3"
+  }
+}

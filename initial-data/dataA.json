@@ -1,0 +1,111 @@
+{
+    "results": [
+        {
+            "id": 594956,
+            "title": "Oven Roasted Cauliflower with Crunchy Topping",
+            "readyInMinutes": 32,
+            "servings": 4,
+            "image": "Oven-Roasted-Cauliflower-with-Crunchy-Topping-594956.jpg",
+            "imageUrls": [
+                "Oven-Roasted-Cauliflower-with-Crunchy-Topping-594956.jpg"
+            ]
+        },
+        {
+            "id": 589956,
+            "title": "Sriracha Roasted Cauliflower and Signing at OXO in NYC",
+            "readyInMinutes": 30,
+            "servings": 4,
+            "image": "Sriracha-Roasted-Cauliflower-and-Signing-at-OXO-in-NYC-589956.jpg",
+            "imageUrls": [
+                "Sriracha-Roasted-Cauliflower-and-Signing-at-OXO-in-NYC-589956.jpg"
+            ]
+        },
+        {
+            "id": 840936,
+            "title": "Roasted Cauliflower \"Rice\" with Garlic and Lemon",
+            "readyInMinutes": 30,
+            "servings": 2,
+            "image": "roasted-cauliflower-rice-with-garlic-and-lemon-840936.jpg",
+            "imageUrls": [
+                "roasted-cauliflower-rice-with-garlic-and-lemon-840936.jpg"
+            ]
+        },
+        {
+            "id": 492395,
+            "title": "Manchurian Roasted Cauliflower",
+            "readyInMinutes": 60,
+            "servings": 4,
+            "image": "Manchurian-Roasted-Cauliflower-492395.jpg",
+            "imageUrls": [
+                "Manchurian-Roasted-Cauliflower-492395.jpg"
+            ]
+        },
+        {
+            "id": 991538,
+            "title": "Roasted Cauliflower \"Rice\" with Garlic and Lemon",
+            "readyInMinutes": 30,
+            "servings": 2,
+            "image": "roasted-cauliflower-rice-with-garlic-and-lemon-991538.jpg",
+            "imageUrls": [
+                "roasted-cauliflower-rice-with-garlic-and-lemon-991538.jpg"
+            ]
+        },
+        {
+            "id": 492043,
+            "title": "Whole Head Roasted Cauliflower",
+            "readyInMinutes": 45,
+            "servings": 4,
+            "image": "Whole-Head-Roasted-Cauliflower-492043.jpg",
+            "imageUrls": [
+                "Whole-Head-Roasted-Cauliflower-492043.jpg"
+            ]
+        },
+        {
+            "id": 752410,
+            "title": "Roasted Cauliflower and Chickpeas",
+            "readyInMinutes": 55,
+            "servings": 4,
+            "image": "roasted-cauliflower-and-chickpeas-752410.jpeg",
+            "imageUrls": [
+                "roasted-cauliflower-and-chickpeas-752410.jpeg"
+            ]
+        },
+        {
+            "id": 546085,
+            "title": "Saffron Roasted Cauliflower",
+            "readyInMinutes": 40,
+            "servings": 6,
+            "image": "saffron-roasted-cauliflower-546085.jpeg",
+            "imageUrls": [
+                "saffron-roasted-cauliflower-546085.jpeg"
+            ]
+        },
+        {
+            "id": 827027,
+            "title": "Roasted Cauliflower (Four Ways!)",
+            "readyInMinutes": 35,
+            "servings": 4,
+            "image": "roasted-cauliflower-four-ways-827027.jpg",
+            "imageUrls": [
+                "roasted-cauliflower-four-ways-827027.jpg"
+            ]
+        },
+        {
+            "id": 728733,
+            "title": "Spiced Roasted Cauliflower",
+            "readyInMinutes": 55,
+            "servings": 2,
+            "image": "spiced-roasted-cauliflower-728733.jpg",
+            "imageUrls": [
+                "spiced-roasted-cauliflower-728733.jpg"
+            ]
+        }
+    ],
+    "baseUri": "https://spoonacular.com/recipeImages/",
+    "offset": 0,
+    "number": 10,
+    "totalResults": 38,
+    "processingTimeMs": 85,
+    "expires": 1530802421612,
+    "isStale": false
+}
