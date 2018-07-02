@@ -1,3 +1,5 @@
+// request.body.originalDetectIntentRequest.payload.user.userId
+
 const keys = require('../config/keys');
 
 module.exports = app => {
@@ -20,7 +22,7 @@ module.exports = app => {
     };
 
     if (request.body.queryResult.action == 'input.queryrecipe') {
-      console.log(request.body.originalDetectIntentRequest.payload.user);
+      console.log(request.body.originalDetectIntentRequest.payload.user.userId);
       reply.payload.google.richResponse.items[0].simpleResponse["textToSpeech"] = "Response 2";
     }
 
