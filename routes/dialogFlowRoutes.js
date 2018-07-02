@@ -25,7 +25,7 @@ module.exports = app => {
     if (request.body.queryResult.action == 'input.queryrecipe') {
       // console.log(request.body)
       // reply.payload.google.richResponse.items[0].simpleResponse["textToSpeech"] = "Response 2";
-      reply.payload['google'] = "expectedInputs": [
+      reply.payload['google'] = {"expectedInputs": [
         {
           "inputPrompt": {
             "initialPrompts": [
@@ -100,6 +100,7 @@ module.exports = app => {
         }
       ]
     }
+  }
 
 
     return response.json(reply);
