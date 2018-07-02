@@ -25,7 +25,7 @@ module.exports = app => {
     if (request.body.queryResult.action == 'input.queryrecipe') {
       // console.log(request.body)
       // reply.payload.google.richResponse.items[0].simpleResponse["textToSpeech"] = "Response 2";
-      reply = {
+      reply.payload['google']= {
         "expectUserResponse": true,
         "expectedInputs": [
             {
