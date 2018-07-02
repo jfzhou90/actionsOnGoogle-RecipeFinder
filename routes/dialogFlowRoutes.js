@@ -26,7 +26,6 @@ module.exports = app => {
       // console.log(request.body)
       // reply.payload.google.richResponse.items[0].simpleResponse["textToSpeech"] = "Response 2";
       reply = {
-        "conversationToken": "",
         "expectUserResponse": true,
         "expectedInputs": [
             {
