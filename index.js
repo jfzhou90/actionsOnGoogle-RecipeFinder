@@ -39,11 +39,10 @@ const app = dialogflow()
 // Register handlers for Dialogflow intents
 
 app.intent('Default Welcome Intent', conv => {
-  conv.ask('Hi, how is it going?')
-  conv.ask(`Here's a picture of a cat`)
+  conv.ask('Hi, I\'m Charlie, I\'m your recipe buddy. What shall we cook today?')
   conv.ask(new Image({
-    url: 'https://developers.google.com/web/fundamentals/accessibility/semantics-builtin/imgs/160204193356-01-cat-500.jpg',
-    alt: 'A cat',
+    url: 'https://cdn.pixabay.com/photo/2016/01/10/18/59/charlie-brown-1132276_960_720.jpg',
+    alt: 'Charlie from snoopy',
   }))
 })
 
