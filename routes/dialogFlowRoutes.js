@@ -4,7 +4,7 @@
 const keys = require('../config/keys');
 
 module.exports = app => {
-  app.post('/api/dialogflow', (request, response) => {
+  app.post('/api/', (request, response) => {
     let reply = {
       "payload": {
         "google": {
