@@ -35,35 +35,6 @@ app.use(function (request, response, next) {
 
 require('./routes/dialogFlowRoutes')(app);
 
-// --------------------------------------------------------------test data--------------------------------------------------------------//
-
-// Constants for list and carousel selection
-const SELECTION_KEY_GOOGLE_ALLO = 'googleAllo';
-const SELECTION_KEY_GOOGLE_HOME = 'googleHome';
-const SELECTION_KEY_GOOGLE_PIXEL = 'googlePixel';
-const SELECTION_KEY_ONE = 'title';
-
-// Constant for image URLs
-const IMG_URL_AOG = 'https://developers.google.com/actions/images/badges' +
-  '/XPM_BADGING_GoogleAssistant_VER.png';
-const IMG_URL_GOOGLE_ALLO = 'https://allo.google.com/images/allo-logo.png';
-const IMG_URL_GOOGLE_HOME = 'https://lh3.googleusercontent.com' +
-  '/Nu3a6F80WfixUqf_ec_vgXy_c0-0r4VLJRXjVFF_X_CIilEu8B9fT35qyTEj_PEsKw';
-const IMG_URL_GOOGLE_PIXEL = 'https://storage.googleapis.com/madebygoog/v1' +
-  '/Pixel/Pixel_ColorPicker/Pixel_Device_Angled_Black-720w.png';
-const IMG_URL_MEDIA = 'http://storage.googleapis.com/automotive-media/album_art.jpg';
-const MEDIA_SOURCE = 'http://storage.googleapis.com/automotive-media/Jazz_In_Paris.mp3';
-
-// Constants for selected item responses
-const SELECTED_ITEM_RESPONSES = {
-  [SELECTION_KEY_ONE]: 'You selected the first item in the list or carousel',
-  [SELECTION_KEY_GOOGLE_HOME]: 'You selected the Google Home!',
-  [SELECTION_KEY_GOOGLE_PIXEL]: 'You selected the Google Home!',
-  [SELECTION_KEY_GOOGLE_PIXEL]: 'You selected the Google Pixel!',
-  [SELECTION_KEY_GOOGLE_ALLO]: 'You selected Google Allo!',
-};
-
-
 
 //----------------------------------------------------------- DialogFlow Side ----------------------------------------------------------//
 // Create an app instance
@@ -99,40 +70,39 @@ googleflow.intent('Query Recipe', conv => {
 
   conv.ask(`Here are some of recipes about ${conv.body.queryResult.parameters.food}`);
   // Create a carousel
-  const a11yText = 'Google Assistant Bubbles';
-  const googleUrl = 'https://google.com';
-  if (!conv.hasScreen) {
-    conv.ask('Sorry, try this on a screen device or select the ' +
-      'phone surface in the simulator.');
-    return;
-  }
-  conv.ask('This is an example of a "Browse Carousel"');
-  // Create a browse carousel
-  conv.ask(new BrowseCarousel({
-    items: [
-      new BrowseCarouselItem({
-        title: 'Title of item 1',
-        url: googleUrl,
-        description: 'Description of item 1',
+  conv.ask(new Carousel({
+    items: {
+      // Add the first item to the carousel
+      "A": {
+        synonyms: [
+          'synonym of title 1',
+          'synonym of title 2',
+          'synonym of title 3',
+        ],
+        title: 'Title of First Carousel Item',
+        description: 'This is a description of a carousel item.',
         image: new Image({
-          url: IMG_URL_AOG,
-          alt: a11yText,
+          url: 'https://cdn.pixabay.com/photo/2016/01/10/18/59/charlie-brown-1132276_960_720.jpg',
+          alt: 'Image alternate text',
         }),
-        footer: 'Item 1 footer',
-      }),
-      new BrowseCarouselItem({
-        title: 'Title of item 2',
-        url: googleUrl,
-        description: 'Description of item 2',
+      },
+      // Add the second item to the carousel
+      "B": {
+        synonyms: [
+          'Google Home Assistant',
+          'Assistant on the Google Home',
+        ],
+        title: 'Google Home',
+        description: 'Google Home is a voice-activated speaker powered by ' +
+          'the Google Assistant.',
         image: new Image({
-          url: IMG_URL_AOG,
-          alt: a11yText,
-        }),
-        footer: 'Item 2 footer',
-      }),
-    ],
+          url: 'https://cdn.pixabay.com/photo/2016/01/10/18/59/charlie-brown-1132276_960_720.jpg',
+          alt: 'Google Home',
+        })
+      }
+    }
   }));
-});
+})
 
 // Intent in Dialogflow called `Goodbye`
 googleflow.intent('Goodbye', conv => {
