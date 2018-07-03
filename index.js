@@ -96,6 +96,20 @@ googleflow.intent('Query Recipe', conv => {
     }
   }));
 
+  const SELECTED_ITEM_RESPONSES = {
+    [SELECTION_KEY_ONE]: 'You selected the first item',
+    [SELECTION_KEY_GOOGLE_HOME]: 'You selected the Google Home!',
+    [SELECTION_KEY_GOOGLE_PIXEL]: 'You selected the Google Pixel!',
+  };
+  
+  app.intent('actions.intent.OPTION', (conv, params, option) => {
+    let response = 'You did not select any item';
+    if (option && SELECTED_ITEM_RESPONSES.hasOwnProperty(option)) {
+      response = SELECTED_ITEM_RESPONSES[option];
+    }
+    conv.ask(response);
+  });
+
 })
 
 // Intent in Dialogflow called `Goodbye`
