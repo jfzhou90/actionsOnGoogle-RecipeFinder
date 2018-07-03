@@ -120,7 +120,7 @@ googleflow.intent('Item Selected', (conv, params, option) => {
     sessionsStorage[conv.id].currentRecipe.ingredients.push(ingredient.originalString);
   })
 
-  recipe.analyzedInstructions.steps.forEach(step => {
+  recipe.analyzedInstructions[0].steps.forEach(step => {
     sessionsStorage[conv.id].currentRecipe.instructions.push(step.step);
   })
 });
