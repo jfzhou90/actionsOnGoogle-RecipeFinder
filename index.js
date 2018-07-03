@@ -161,21 +161,16 @@ googleflow.intent('Query Recipe', conv => {
 });
 
 
-const SELECTED_ITEM_RESPONSES = {
-  [SELECTION_KEY_ONE]: 'You selected the first item',
-  [SELECTION_KEY_GOOGLE_HOME]: 'You selected the Google Home!',
-  [SELECTION_KEY_GOOGLE_PIXEL]: 'You selected the Google Pixel!',
-};
 
-googleflow.intent('actions.intent.OPTION', (conv, params, option) => {
-  let response = 'You did not select any item';
+googleflow.intent('item selected', (conv, params, option) => {
+  let response = 'You did not select any item from the list or carousel';
   if (option && SELECTED_ITEM_RESPONSES.hasOwnProperty(option)) {
     response = SELECTED_ITEM_RESPONSES[option];
+  } else {
+    response = 'You selected an unknown item from the list or carousel';
   }
   conv.ask(response);
 });
-
-})
 
 // Intent in Dialogflow called `Goodbye`
 googleflow.intent('Goodbye', conv => {
