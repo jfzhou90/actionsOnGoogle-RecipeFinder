@@ -58,11 +58,10 @@ googleflow.intent('Default Welcome Intent', conv => {
 
 // Intent in Dialogflow called `Query Recipe`
 googleflow.intent('Query Recipe', conv => {
-  console.log(conv.body);
+  console.log(conv.body.user);
 
   if (!conv.surface.capabilities.has('actions.capability.SCREEN_OUTPUT')) {
-    conv.ask('Sorry, try this on a screen device or select the ' +
-      'phone surface in the simulator.');
+    conv.ask('Sorry, try this on a screen device.');
     return;
   }
 
@@ -89,13 +88,15 @@ googleflow.intent('Query Recipe', conv => {
   }
 })
 
-googleflow.intent('item selected', (conv, params, option) => {
+googleflow.intent('Item Selected', (conv, params, option) => {
+  console.log(params);
+  console.log(option);
   let response = 'You did not select any item from the list or carousel';
-  if (option && searchResult.results.items.hasOwnProperty(option)) {
-    response = SELECTED_ITEM_RESPONSES[option];
-  } else {
-    response = 'You selected an unknown item from the list or carousel';
-  }
+  // if (option && searchResult.results.items.hasOwnProperty(option)) {
+  //   response = SELECTED_ITEM_RESPONSES[option];
+  // } else {
+  //   response = 'You selected an unknown item from the list or carousel';
+  // }
   conv.ask(response);
 });
 
@@ -105,7 +106,7 @@ googleflow.intent('Goodbye', conv => {
 })
 
 googleflow.intent('Default Fallback Intent', conv => {
-  conv.ask(`I didn't understand. Can you tell me something else?`)
+  conv.ask(`I didn't understand. Can you repeat that??`)
 })
 
 express().use(bodyParser.json(), app, googleflow).listen(process.env.PORT || 8000, function () {
