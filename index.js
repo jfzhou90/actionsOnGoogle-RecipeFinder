@@ -146,13 +146,28 @@ googleflow.intent('Step by Step', conv => {
   }
   
   let count = sessionsStorage[conv.id].currentRecipe.counter;
-  if(count < sessionsStorage[conv.id].currentRecipe.ingredients.length){
+  let ingredientLength = sessionsStorage[conv.id].currentRecipe.ingredients.length
+  let instructionLength = sessionsStorage[conv.id].currentRecipe.instructions.length
+  if(count < ingredientLength){
     sessionsStorage[conv.id].currentRecipe.currentStep = sessionsStorage[conv.id].currentRecipe.ingredients[count];
-    conv.ask(sessionsStorage[conv.id].currentRecipe.ingredients[count]);
-    count++;
-    console.log(count);
-    sessionsStorage[conv.id].currentRecipe.counter = count;
+    let response = sessionsStorage[conv.id].currentRecipe.ingredients[count];
+    if(count == ingredientLength -1){
+      response += "\nThat is the last ingredient, let's start cooking. Ready?"
+    }
+    conv.ask(response);
+  } else if(count >= sessionsStorage[conv.id].currentRecipe.ingredients.length && count < ingredientLength + instructionLength) {
+      let newCount = count - ingredientLength;
+      let response = sessionsStorage[conv.id].currentRecipe.instructions[count];
+      if(newCount == instructionLength -1){
+        response += "That's the last step, please enjoy."
+      }
+      conv.ask(response);
+  } else {
+    conv.ask('Hmm, there are no steps left, would you like me to repeat all over again?')
   }
+
+  count++;
+  sessionsStorage[conv.id].currentRecipe.counter = count;
 });
 
 googleflow.intent('Repeat', conv => {
@@ -160,6 +175,14 @@ googleflow.intent('Repeat', conv => {
     conv.ask("Hmmm? I don't remember that we looked for any recipe, let's try finding one together.")
   }
   conv.ask(sessionsStorage[conv.id].currentRecipe.currentStep);
+});
+
+googleflow.intent('Restart', conv => {
+  if(!sessionsStorage[conv.id] || !sessionsStorage[conv.id].currentRecipe || !sessionsStorage[conv.id].currentRecipe.currentStep){
+    conv.ask("Hmmm? I don't remember that we looked for any recipe, let's try finding one together.")
+  }
+  sessionsStorage[conv.id].currentRecipe.counter = 1;
+  conv.ask(sessionsStorage[conv.id].currentRecipe.ingredients[0]);
 });
 
 // Intent in Dialogflow called `Goodbye`
