@@ -34,7 +34,7 @@ app.use(function (request, response, next) {
 
 //----------------------------------------------------------- DialogFlow Side ----------------------------------------------------------//
 // stores sessions locally, resets everytime heroku falls to sleep or resets
-let sessions = {}
+let sessionsStorage = {}
 
 // Create an app instance
 const googleflow = dialogflow();
@@ -59,6 +59,8 @@ googleflow.intent('Default Welcome Intent', conv => {
 // Intent in Dialogflow called `Query Recipe`
 googleflow.intent('Query Recipe', conv => {
   console.log(conv.body);
+  let sessionId = conv.body.session;
+  sessionsStorage[sessionId] = {};
 
   if (!conv.surface.capabilities.has('actions.capability.SCREEN_OUTPUT')) {
     conv.ask('Sorry, try this on a screen device.');
@@ -80,8 +82,10 @@ googleflow.intent('Query Recipe', conv => {
           alt: dish.title,
         })
       }
+      sessionsStorage.sessionId[dish.title] = dish.id;
     });
 
+    console.log(sessionsStorage);
     conv.ask(`Here are some of recipes for ${conv.body.queryResult.parameters.food}. Click on one to get started.`);
     // Create a carousel
     conv.ask(new Carousel(carouselObj));
