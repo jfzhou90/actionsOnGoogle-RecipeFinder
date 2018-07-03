@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 const routes = require('./routes/dialogFlowRoutes')
-const { dialogflow, Image, Carousel } = require('actions-on-google')
+const { dialogflow, BasicCard, BrowseCarousel, BrowseCarouselItem, Button, Carousel, Image, LinkOutSuggestion, List, MediaObject, Suggestions, SimpleResponse, Table } = require('actions-on-google');
 
 //----------------------------------------------------------- Express server side ----------------------------------------------------------//
 const app = express();
@@ -35,11 +35,47 @@ app.use(function (request, response, next) {
 
 require('./routes/dialogFlowRoutes')(app);
 
+// --------------------------------------------------------------test data--------------------------------------------------------------//
+
+// Constants for list and carousel selection
+const SELECTION_KEY_GOOGLE_ALLO = 'googleAllo';
+const SELECTION_KEY_GOOGLE_HOME = 'googleHome';
+const SELECTION_KEY_GOOGLE_PIXEL = 'googlePixel';
+const SELECTION_KEY_ONE = 'title';
+
+// Constant for image URLs
+const IMG_URL_AOG = 'https://developers.google.com/actions/images/badges' +
+  '/XPM_BADGING_GoogleAssistant_VER.png';
+const IMG_URL_GOOGLE_ALLO = 'https://allo.google.com/images/allo-logo.png';
+const IMG_URL_GOOGLE_HOME = 'https://lh3.googleusercontent.com' +
+  '/Nu3a6F80WfixUqf_ec_vgXy_c0-0r4VLJRXjVFF_X_CIilEu8B9fT35qyTEj_PEsKw';
+const IMG_URL_GOOGLE_PIXEL = 'https://storage.googleapis.com/madebygoog/v1' +
+  '/Pixel/Pixel_ColorPicker/Pixel_Device_Angled_Black-720w.png';
+const IMG_URL_MEDIA = 'http://storage.googleapis.com/automotive-media/album_art.jpg';
+const MEDIA_SOURCE = 'http://storage.googleapis.com/automotive-media/Jazz_In_Paris.mp3';
+
+// Constants for selected item responses
+const SELECTED_ITEM_RESPONSES = {
+  [SELECTION_KEY_ONE]: 'You selected the first item in the list or carousel',
+  [SELECTION_KEY_GOOGLE_HOME]: 'You selected the Google Home!',
+  [SELECTION_KEY_GOOGLE_PIXEL]: 'You selected the Google Home!',
+  [SELECTION_KEY_GOOGLE_PIXEL]: 'You selected the Google Pixel!',
+  [SELECTION_KEY_GOOGLE_ALLO]: 'You selected Google Allo!',
+};
+
+
 
 //----------------------------------------------------------- DialogFlow Side ----------------------------------------------------------//
 // Create an app instance
 
 const googleflow = dialogflow();
+
+googleflow.middleware((conv) => {
+  conv.hasScreen =
+    conv.surface.capabilities.has('actions.capability.SCREEN_OUTPUT');
+  conv.hasAudioPlayback =
+    conv.surface.capabilities.has('actions.capability.AUDIO_OUTPUT');
+});
 
 // Register handlers for Dialogflow intents
 
@@ -53,9 +89,9 @@ googleflow.intent('Default Welcome Intent', conv => {
 
 // Intent in Dialogflow called `Query Recipe`
 googleflow.intent('Query Recipe', conv => {
-  console.log(googleflow.getArgument('food'));
+  console.log(conv.body);
 
-  if (!conv.surface.capabilities.has('actions.capability.SCREEN_OUTPUT')) {
+  if (!conv.hasScreen) {
     conv.ask('Sorry, try this on a screen device or select the ' +
       'phone surface in the simulator.');
     return;
@@ -91,24 +127,53 @@ googleflow.intent('Query Recipe', conv => {
         image: new Image({
           url: IMG_URL_GOOGLE_HOME,
           alt: 'Google Home',
-        })
-      }
-    }
+        }),
+      },
+      // Add third item to the carousel
+      [SELECTION_KEY_GOOGLE_PIXEL]: {
+        synonyms: [
+          'Google Pixel XL',
+          'Pixel',
+          'Pixel XL',
+        ],
+        title: 'Google Pixel',
+        description: 'Pixel. Phone by Google.',
+        image: new Image({
+          url: IMG_URL_GOOGLE_PIXEL,
+          alt: 'Google Pixel',
+        }),
+      },
+      // Add last item of the carousel
+      [SELECTION_KEY_GOOGLE_ALLO]: {
+        title: 'Google Allo',
+        synonyms: [
+          'Allo',
+        ],
+        description: 'Introducing Google Allo, a smart messaging app that ' +
+          'helps you say more and do more.',
+        image: new Image({
+          url: IMG_URL_GOOGLE_ALLO,
+          alt: 'Google Allo Logo',
+        }),
+      },
+    },
   }));
+});
 
-  const SELECTED_ITEM_RESPONSES = {
-    [SELECTION_KEY_ONE]: 'You selected the first item',
-    [SELECTION_KEY_GOOGLE_HOME]: 'You selected the Google Home!',
-    [SELECTION_KEY_GOOGLE_PIXEL]: 'You selected the Google Pixel!',
-  };
-  
-  app.intent('actions.intent.OPTION', (conv, params, option) => {
-    let response = 'You did not select any item';
-    if (option && SELECTED_ITEM_RESPONSES.hasOwnProperty(option)) {
-      response = SELECTED_ITEM_RESPONSES[option];
-    }
-    conv.ask(response);
-  });
+
+const SELECTED_ITEM_RESPONSES = {
+  [SELECTION_KEY_ONE]: 'You selected the first item',
+  [SELECTION_KEY_GOOGLE_HOME]: 'You selected the Google Home!',
+  [SELECTION_KEY_GOOGLE_PIXEL]: 'You selected the Google Pixel!',
+};
+
+googleflow.intent('actions.intent.OPTION', (conv, params, option) => {
+  let response = 'You did not select any item';
+  if (option && SELECTED_ITEM_RESPONSES.hasOwnProperty(option)) {
+    response = SELECTED_ITEM_RESPONSES[option];
+  }
+  conv.ask(response);
+});
 
 })
 
