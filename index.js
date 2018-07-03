@@ -91,7 +91,7 @@ googleflow.intent('Query Recipe', conv => {
 
 googleflow.intent('Item Selected', (conv, params, option) => {
   let response = 'You did not select any item from the list or carousel';
-  if (option && sessionStorage[conv.id].hasOwnProperty(option)) {
+  if (option && sessionsStorage[conv.id].hasOwnProperty(option)) {
     sessionsStorage[conv.id].currentRecipe.id = sessionsStorage[conv.id][option];
     response = `You have selected ${option}. Would you like me to read all the ingredients or one at a time?`;
   } else {
