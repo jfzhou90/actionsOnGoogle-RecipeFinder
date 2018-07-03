@@ -74,7 +74,7 @@ googleflow.intent('Query Recipe', conv => {
         title: dish.title,
         description: `${dish.servings} servings, ready in ${dish.readyInMinutes} minutes.`,
         image: new Image({
-          url: dish.baseUri + dish.imageUrls,
+          url: searchResult.baseUri + dish.imageUrls,
           alt: dish.title,
         })
       }
