@@ -97,7 +97,7 @@ googleflow.intent('Item Selected', (conv, params, option) => {
   } else {
     response = 'You selected an unknown item from the carousel';
   }
-  console.log(sessionStorage)
+  console.log(sessionsStorage)
   conv.ask(response);
 });
 
