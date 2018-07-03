@@ -99,6 +99,39 @@ googleflow.intent('Query Recipe', conv => {
 
   conv.ask(`Here are some of recipes about ${conv.body.queryResult.parameters.food}`);
   // Create a carousel
+  const a11yText = 'Google Assistant Bubbles';
+  const googleUrl = 'https://google.com';
+  if (!conv.hasScreen) {
+    conv.ask('Sorry, try this on a screen device or select the ' +
+      'phone surface in the simulator.');
+    return;
+  }
+  conv.ask('This is an example of a "Browse Carousel"');
+  // Create a browse carousel
+  conv.ask(new BrowseCarousel({
+    items: [
+      new BrowseCarouselItem({
+        title: 'Title of item 1',
+        url: googleUrl,
+        description: 'Description of item 1',
+        image: new Image({
+          url: IMG_URL_AOG,
+          alt: a11yText,
+        }),
+        footer: 'Item 1 footer',
+      }),
+      new BrowseCarouselItem({
+        title: 'Title of item 2',
+        url: googleUrl,
+        description: 'Description of item 2',
+        image: new Image({
+          url: IMG_URL_AOG,
+          alt: a11yText,
+        }),
+        footer: 'Item 2 footer',
+      }),
+    ],
+  }));
 });
 
 // Intent in Dialogflow called `Goodbye`
