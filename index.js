@@ -62,11 +62,11 @@ googleflow.intent('Default Welcome Intent', conv => {
 googleflow.intent('Query Recipe', conv => {
   console.log(conv.body);
 
-  if (!conv.hasScreen) {
-    conv.ask('Sorry, try this on a screen device or select the ' +
-      'phone surface in the simulator.');
-    return;
-  }
+  // if (!conv.hasScreen) {
+  //   conv.ask('Sorry, try this on a screen device or select the ' +
+  //     'phone surface in the simulator.');
+  //   return;
+  // }
 
   conv.ask(`Here are some of recipes about ${conv.body.queryResult.parameters.food}`);
   // Create a carousel
