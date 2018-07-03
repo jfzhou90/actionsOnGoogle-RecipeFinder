@@ -136,17 +136,7 @@ googleflow.intent('All Ingredients', conv => {
   sessionsStorage[conv.id].currentRecipe.counter = sessionsStorage[conv.id].currentRecipe.ingredients.length;
 
   function saySSML(conv) {
-    const ssml = '<speak>' +
-      'Here are <say-as interpret-as="characters">SSML</say-as> samples. ' +
-      'I can pause <break time="3" />. ' +
-      'I can play a sound <audio src="https://www.example.com/MY_WAVE_FILE.wav">your wave file</audio>. ' +
-      'I can speak in cardinals. Your position is <say-as interpret-as="cardinal">10</say-as> in line. ' +
-      'Or I can speak in ordinals. You are <say-as interpret-as="ordinal">10</say-as> in line. ' +
-      'Or I can even speak in digits. Your position in line is <say-as interpret-as="digits">10</say-as>. ' +
-      'I can also substitute phrases, like the <sub alias="World Wide Web Consortium">W3C</sub>. ' +
-      'Finally, I can speak a paragraph with two sentences. ' +
-      '<p><s>This is sentence one.</s><s>This is sentence two.</s></p>' +
-      '</speak>';
+    const ssml = `<speak>${allIngredients}\n<break time="3" /> Would you like me to read the instructions?</speak>`
     conv.ask(ssml);
   }
    saySSML(conv);
