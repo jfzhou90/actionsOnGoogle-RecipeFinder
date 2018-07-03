@@ -71,7 +71,7 @@ googleflow.intent('Query Recipe', conv => {
     searchResult.results.forEach(dish => {
       carouselObj.items[dish.title] = {
         title: dish.title,
-        description: `${dish.servings} servings, ready in ${dish.readyInMinutes} minutes.`,
+        description: `${dish.servings} servings.\nReady in ${dish.readyInMinutes} minutes.`,
         image: new Image({
           url: searchResult.baseUri + dish.imageUrls,
           alt: dish.title,
@@ -85,6 +85,16 @@ googleflow.intent('Query Recipe', conv => {
     conv.ask(new Carousel(carouselObj));
   }
 })
+
+googleflow.intent('item selected', (conv, params, option) => {
+  let response = 'You did not select any item from the list or carousel';
+  if (option && SELECTED_ITEM_RESPONSES.hasOwnProperty(option)) {
+    response = SELECTED_ITEM_RESPONSES[option];
+  } else {
+    response = 'You selected an unknown item from the list or carousel';
+  }
+  conv.ask(response);
+});
 
 // Intent in Dialogflow called `Goodbye`
 googleflow.intent('Goodbye', conv => {
