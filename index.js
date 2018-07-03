@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(function(request, response, next) {
   response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-Authentication");
   response.header("Access-Control-Allow-Origin", "*");
-  console.log(request)
+  // console.log(request.body)
   
   // Pre-flight Request
   if ('OPTIONS' == request.method) {
@@ -48,6 +48,7 @@ googleflow.intent('Default Welcome Intent', conv => {
 
 // Intent in Dialogflow called `Goodbye`
 googleflow.intent('Query Recipe', conv => {
+  console.log(conv);
   conv.ask('Here are some of the related recipes')
 })
 
