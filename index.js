@@ -58,7 +58,7 @@ googleflow.intent('Default Welcome Intent', conv => {
 
 // Intent in Dialogflow called `Query Recipe`
 googleflow.intent('Query Recipe', conv => {
-  sessionsStorage[conv.id] = {currentRecipe:{}};
+  sessionsStorage[conv.id] = { currentRecipe: {} };
 
   if (!conv.surface.capabilities.has('actions.capability.SCREEN_OUTPUT')) {
     conv.ask('Sorry, try this on a screen device.');
@@ -71,6 +71,7 @@ googleflow.intent('Query Recipe', conv => {
   if (searchResult.results.length > 2) {
     let carouselObj = { items: {} };
 
+    // for each search result, create an detail obj in the carouselObj.items
     searchResult.results.forEach(dish => {
       carouselObj.items[dish.title] = {
         title: dish.title,
@@ -80,7 +81,9 @@ googleflow.intent('Query Recipe', conv => {
           alt: dish.title
         })
       }
-      sessionsStorage[conv.id][dish.title] = dish.id;
+      // saving current search to session, so it can be used later
+      sessionsStorage[conv.id][dish.title][id] = dish.id;
+      sessionsStorage[conv.id][dish.title][url] = searchResult.baseUri + dish.imageUrls;
     });
 
     conv.ask(`Here are some of recipes for ${conv.body.queryResult.parameters.food}. Click on one to get started.`);
@@ -92,13 +95,19 @@ googleflow.intent('Query Recipe', conv => {
 googleflow.intent('Item Selected', (conv, params, option) => {
   let response = 'You did not select any item from the list or carousel';
   if (option && sessionsStorage[conv.id].hasOwnProperty(option)) {
-    sessionsStorage[conv.id].currentRecipe.id = sessionsStorage[conv.id][option];
-    response = `You have selected ${option}. Would you like me to read all the ingredients or one at a time?`;
+    sessionsStorage[conv.id].currentRecipe.id = sessionsStorage[conv.id][option].id;
+
+    response = `You have selected ${option}. Let's start with the ingredients, shall we?`;
   } else {
     response = 'You selected an unknown item from the carousel';
   }
-  console.log(sessionsStorage)
   conv.ask(response);
+  conv.ask(new BasicCard({
+    image: new Image({
+      url: sessionsStorage[conv.id][option].url,
+      alt: option
+    })
+  }))
 });
 
 // Intent in Dialogflow called `Goodbye`
