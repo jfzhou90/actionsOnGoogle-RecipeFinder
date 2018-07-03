@@ -124,7 +124,7 @@ googleflow.intent('All Ingredients', conv => {
   if(sessionsStorage[conv.id] && sessionsStorage[conv.id].currentRecipe.ingredients.length == 0){
     conv.ask("I don't have anything. Let's find a recipe together.");
   }
-  let allIngredients = sessionsStorage[conv.id].currentRecipe.ingredients.join();
+  let allIngredients = sessionsStorage[conv.id].currentRecipe.ingredients.join(',\n');
   conv.ask(allIngredients);
 });
 
