@@ -146,11 +146,11 @@ googleflow.intent('Step by Step', conv => {
     conv.ask("I don't have anything. Let's find a recipe together.");
     return;
   }
-  console.log(sessionsStorage[conv.id].currentRecipe)
+  
   let count = sessionsStorage[conv.id].currentRecipe.counter;
   if(count < sessionsStorage[conv.id].currentRecipe.ingredients.length){
-    sessionsStorage[conv.id].currentRecipe.currentStep = currentRecipe.ingredients[count];
-    conv.ask(currentRecipe.ingredients[count]);
+    sessionsStorage[conv.id].currentRecipe.currentStep = sessionsStorage[conv.id].currentRecipe.ingredients[count];
+    conv.ask(sessionsStorage[conv.id].currentRecipe.ingredients[count]);
     count++;
   }
   console.log(sessionsStorage[conv.id].currentRecipe)
