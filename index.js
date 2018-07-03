@@ -58,8 +58,7 @@ googleflow.intent('Default Welcome Intent', conv => {
 
 // Intent in Dialogflow called `Query Recipe`
 googleflow.intent('Query Recipe', conv => {
-  let sessionId = conv.id;
-  sessionsStorage[sessionId] = {};
+  sessionsStorage[conv.id] = {currentRecipe:{}};
 
   if (!conv.surface.capabilities.has('actions.capability.SCREEN_OUTPUT')) {
     conv.ask('Sorry, try this on a screen device.');
@@ -84,7 +83,6 @@ googleflow.intent('Query Recipe', conv => {
       sessionsStorage[sessionId][dish.title] = dish.id;
     });
 
-    console.log(sessionsStorage);
     conv.ask(`Here are some of recipes for ${conv.body.queryResult.parameters.food}. Click on one to get started.`);
     // Create a carousel
     conv.ask(new Carousel(carouselObj));
@@ -93,11 +91,13 @@ googleflow.intent('Query Recipe', conv => {
 
 googleflow.intent('Item Selected', (conv, params, option) => {
   let response = 'You did not select any item from the list or carousel';
-  if (option && searchResult.results.items.hasOwnProperty(option)) {
+  if (option && sessionStorage[conv.id].hasOwnProperty(option)) {
+    sessionsStorage[conv.id].currentRecipe.id = sessionsStorage[conv.id][option];
     response = `You have selected ${option}. Would you like me to read all the ingredients or one at a time?`;
   } else {
     response = 'You selected an unknown item from the carousel';
   }
+  console.log(sessionStorage)
   conv.ask(response);
 });
 
