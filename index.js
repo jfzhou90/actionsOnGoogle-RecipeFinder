@@ -5,7 +5,7 @@ const keys = require('./config/keys');
 const routes = require('./routes/dialogFlowRoutes')
 const { dialogflow, Image } = require('actions-on-google')
 
-//server side files.
+//----------------------------------------------------------- Express server side ----------------------------------------------------------//
 const app = express();
 app.use(
   bodyParser.urlencoded({
@@ -27,8 +27,10 @@ app.use(function(request, response, next) {
   next();
 });
 
-require('./routes/dialogFlowRoutes')(app);
+// require('./routes/dialogFlowRoutes')(app);
 
+
+//----------------------------------------------------------- DialogFlow Side ----------------------------------------------------------//
 // Create an app instance
 
 const googleflow = dialogflow();
@@ -39,8 +41,13 @@ googleflow.intent('Default Welcome Intent', conv => {
   conv.ask('Hi, I\'m Charlie, I\'m your recipe buddy. What shall we cook today?')
   conv.ask(new Image({
     url: 'https://cdn.pixabay.com/photo/2016/01/10/18/59/charlie-brown-1132276_960_720.jpg',
-    alt: 'Charlie from snoopy',
+    alt: 'Charlie Brown',
   }))
+})
+
+// Intent in Dialogflow called `Goodbye`
+googleflow.intent('Query Recipe', conv => {
+  conv.ask('Here are some of the related recipes')
 })
 
 // Intent in Dialogflow called `Goodbye`
