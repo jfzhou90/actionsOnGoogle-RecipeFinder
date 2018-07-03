@@ -121,7 +121,7 @@ googleflow.intent('Item Selected', (conv, params, option) => {
 
 // read all ingredients
 googleflow.intent('All Ingredients', conv => {
-  if(sessionsStorage[conv.id] && sessionsStorage[conv.id].currentRecipe.ingredients.length == 0){
+  if(!sessionsStorage[conv.id] || sessionsStorage[conv.id].currentRecipe.ingredients.length < 1){
     conv.ask("I don't have anything. Let's find a recipe together.");
     return;
   } else {
