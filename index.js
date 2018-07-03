@@ -25,6 +25,8 @@ const routes = require('./routes/dialogFlowRoutes')
 //   next();
 // });
 
+// require('./routes/dialogFlowRoutes')(app);
+
 const {
   dialogflow,
   Image,
@@ -53,8 +55,6 @@ app.intent('Goodbye', conv => {
 app.intent('Default Fallback Intent', conv => {
   conv.ask(`I didn't understand. Can you tell me something else?`)
 })
-
-require('./routes/dialogFlowRoutes')(app);
 
 express().use(bodyParser.json(), app).listen(process.env.PORT || 8000, function () {
   fakeData.initializeData();
