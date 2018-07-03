@@ -149,6 +149,7 @@ googleflow.intent('All Ingredients', conv => {
       '</speak>';
     conv.ask(ssml);
   }
+   saySSML(conv);
   // conv.ask(`${allIngredients}\n Would you like me to read the instructions?`);
 });
 
