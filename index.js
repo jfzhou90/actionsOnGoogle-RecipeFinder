@@ -33,8 +33,10 @@ app.use(function (request, response, next) {
 });
 
 //----------------------------------------------------------- DialogFlow Side ----------------------------------------------------------//
-// Create an app instance
+// stores sessions locally, resets everytime heroku falls to sleep or resets
+let sessions = {}
 
+// Create an app instance
 const googleflow = dialogflow();
 
 googleflow.middleware((conv) => {
@@ -56,7 +58,7 @@ googleflow.intent('Default Welcome Intent', conv => {
 
 // Intent in Dialogflow called `Query Recipe`
 googleflow.intent('Query Recipe', conv => {
-  // console.log(conv.body);
+  console.log(conv.body);
 
   if (!conv.surface.capabilities.has('actions.capability.SCREEN_OUTPUT')) {
     conv.ask('Sorry, try this on a screen device or select the ' +
@@ -66,8 +68,10 @@ googleflow.intent('Query Recipe', conv => {
 
   // Replace this with fake data with request call when app is ready for deployment
   let searchResult = fakeData.getAll();
+
   if (searchResult.results.length > 2) {
     let carouselObj = { items: {} };
+
     searchResult.results.forEach(dish => {
       carouselObj.items[dish.title] = {
         title: dish.title,
@@ -77,7 +81,6 @@ googleflow.intent('Query Recipe', conv => {
           alt: dish.title,
         })
       }
-      console.log(carouselObj);
     });
 
     conv.ask(`Here are some of recipes about ${conv.body.queryResult.parameters.food}`);
@@ -88,7 +91,7 @@ googleflow.intent('Query Recipe', conv => {
 
 googleflow.intent('item selected', (conv, params, option) => {
   let response = 'You did not select any item from the list or carousel';
-  if (option && SELECTED_ITEM_RESPONSES.hasOwnProperty(option)) {
+  if (option && searchResult.results.items.hasOwnProperty(option)) {
     response = SELECTED_ITEM_RESPONSES[option];
   } else {
     response = 'You selected an unknown item from the list or carousel';
