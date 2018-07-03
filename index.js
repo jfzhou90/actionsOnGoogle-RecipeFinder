@@ -113,6 +113,8 @@ googleflow.intent('Item Selected', (conv, params, option) => {
   let recipe = fakeData.getOne();
   sessionsStorage[conv.id].currentRecipe.ingredients = [];
   sessionsStorage[conv.id].currentRecipe.instructions = [];
+  sessionsStorage[conv.id].currentRecipe.currentStep = null;
+  sessionsStorage[conv.id].currentRecipe.counter = 0;
 
   recipe.extendedIngredients.forEach(ingredient => {
     sessionsStorage[conv.id].currentRecipe.ingredients.push(ingredient.originalString);
@@ -125,16 +127,33 @@ googleflow.intent('All Ingredients', conv => {
     conv.ask("I don't have anything. Let's find a recipe together.");
     return;
   }
-  let allIngredients = sessionsStorage[conv.id].currentRecipe.ingredients.join(',\n');
-  conv.ask(allIngredients);
+  let allIngredients = sessionsStorage[conv.id].currentRecipe.ingredients.join('\n');
+  sessionsStorage[conv.id].currentRecipe.counter = sessionsStorage[conv.id].currentRecipe.ingredients.length;
+
+  conv.ask(`${allIngredients}\n Would you like me to read the instructions?`);
 });
 
 googleflow.intent('Step by Step', conv => {
+  if (!sessionsStorage[conv.id] || sessionsStorage[conv.id].currentRecipe.ingredients.length == 0 || sessionsStorage[conv.id].currentRecipe.instructions.length == 0) {
+    conv.ask("I don't have anything. Let's find a recipe together.");
+    return;
+  }
+  console.log(sessionsStorage[conv.id].currentRecipe)
+  let count = sessionsStorage[conv.id].currentRecipe.counter;
+  if(count < sessionsStorage[conv.id].currentRecipe.ingredients.length){
+    sessionsStorage[conv.id].currentRecipe.currentStep = currentRecipe.ingredients[count];
+    conv.ask(currentRecipe.ingredients[count]);
+    count++;
+  }
+  console.log(sessionsStorage[conv.id].currentRecipe)
 
 });
 
 googleflow.intent('Repeat', conv => {
-
+  if(!sessionsStorage[conv.id] || !sessionsStorage[conv.id].currentRecipe || !sessionsStorage[conv.id].currentRecipe.currentStep){
+    conv.ask("Hmmm? I don't remember that we looked for any recipe, let's try finding one together.")
+  }
+  conv.ask(sessionsStorage[conv.id].currentRecipe.currentStep);
 });
 
 // Intent in Dialogflow called `Goodbye`
