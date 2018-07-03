@@ -111,6 +111,7 @@ googleflow.intent('Item Selected', (conv, params, option) => {
 
   // prefetch recipes here. replace getOne() with request call when app ready for deploy
   let recipe = fakeData.getOne();
+  sessionsStorage[conv.id].currentRecipe.ingredients = [];
   sessionsStorage[conv.id].currentRecipe.instructions = [];
 
   recipe.extendedIngredients.forEach(ingredient => {
