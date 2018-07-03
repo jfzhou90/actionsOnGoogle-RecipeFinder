@@ -75,7 +75,7 @@ googleflow.intent('Query Recipe', conv => {
     searchResult.results.forEach(dish => {
       carouselObj.items[dish.title] = {
         title: dish.title,
-        description: `${dish.servings} servings.\nReady in ${dish.readyInMinutes} minutes.`,
+        description: `${dish.servings} servings. Ready in ${dish.readyInMinutes} minutes.`,
         image: new Image({
           url: searchResult.baseUri + dish.imageUrls,
           alt: dish.title
@@ -117,17 +117,24 @@ googleflow.intent('Item Selected', (conv, params, option) => {
   recipe.extendedIngredients.forEach(ingredient => {
     sessionsStorage[conv.id].currentRecipe.ingredients.push(ingredient.originalString);
   })
-  console.log(sessionsStorage[conv.id].currentRecipe.ingredients)
-  conv.ask(sessionsStorage[conv.id].currentRecipe.ingredients[2]);
 });
 
-googleflow.intent('All Ingredient', conv => {
+// read all ingredients
+googleflow.intent('All Ingredients', conv => {
+  let currentRecipe = sessionsStorage[conv.id].currentRecipe;
   
-})
+  CurrentRecipe.ingredients.forEach(ingredient => {
+    conv.ask(ingredient);
+  })
+});
+
+googleflow.intent('Step by Step', conv => {
+  
+});
 
 googleflow.intent('Repeat', conv => {
   
-})
+});
 
 // Intent in Dialogflow called `Goodbye`
 googleflow.intent('Goodbye', conv => {
