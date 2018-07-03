@@ -69,7 +69,7 @@ googleflow.intent('Query Recipe', conv => {
   if (searchResult.results.length > 2) {
     let carouselObj = { items: {} };
     searchResult.results.forEach(dish => {
-      carouselObj.items[dish] = {
+      carouselObj.items[dish.title] = {
         title: dish.title,
         description: `${dish.servings} servings, ready in ${dish.readyInMinutes} minutes.`,
         image: new Image({
