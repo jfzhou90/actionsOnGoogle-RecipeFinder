@@ -58,8 +58,7 @@ googleflow.intent('Default Welcome Intent', conv => {
 
 // Intent in Dialogflow called `Query Recipe`
 googleflow.intent('Query Recipe', conv => {
-  console.log(conv.body);
-  let sessionId = conv.body.session;
+  let sessionId = conv.id;
   sessionsStorage[sessionId] = {};
 
   if (!conv.surface.capabilities.has('actions.capability.SCREEN_OUTPUT')) {
@@ -85,7 +84,7 @@ googleflow.intent('Query Recipe', conv => {
       // sessionsStorage.sessionId[dish.title] = dish.id;
     });
 
-    console.log(conv);
+    console.log(sessionsStorage);
     conv.ask(`Here are some of recipes for ${conv.body.queryResult.parameters.food}. Click on one to get started.`);
     // Create a carousel
     conv.ask(new Carousel(carouselObj));
