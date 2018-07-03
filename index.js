@@ -114,9 +114,9 @@ googleflow.intent('Item Selected', (conv, params, option) => {
   sessionsStorage[conv.id].currentRecipe.instructions = [];
 
   recipe.extendedIngredients.forEach(ingredient => {
-    sessionsStorage[conv.id].currentRecipe.instructions.push(ingredient.originalString);
+    sessionsStorage[conv.id].currentRecipe.ingredients.push(ingredient.originalString);
   })
-  console.log(sessionsStorage)
+  console.log(sessionsStorage[conv.id].currentRecipe.ingredients)
 });
 
 googleflow.intent('All Ingredient', conv => {
