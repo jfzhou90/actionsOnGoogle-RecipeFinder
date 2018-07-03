@@ -121,11 +121,11 @@ googleflow.intent('Item Selected', (conv, params, option) => {
 
 // read all ingredients
 googleflow.intent('All Ingredients', conv => {
-  let currentRecipe = sessionsStorage[conv.id].currentRecipe;
-
-  currentRecipe.ingredients.forEach(ingredient => {
-    conv.ask(ingredient);
-  })
+  if(sessionsStorage[conv.id].currentRecipe.ingredients.length == 0){
+    conv.ask("I don't have any ingredients for this recipe. Let's find another recipe");
+  }
+  let allIngredients = sessionsStorage[conv.id].currentRecipe.ingredients.join();
+  conv.ask(allIngredients);
 });
 
 googleflow.intent('Step by Step', conv => {
