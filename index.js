@@ -81,7 +81,9 @@ googleflow.intent('Query Recipe', conv => {
           alt: dish.title
         })
       }
-      sessionsStorage.sessionId[dish.title] = dish.id;
+      console.log(dish.id);
+      console.log(dish.title);
+      sessionsStorage.sessionId[dish.id] = dish.title;
     });
 
     console.log(sessionsStorage);
