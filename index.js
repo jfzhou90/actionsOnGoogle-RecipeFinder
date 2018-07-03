@@ -122,8 +122,8 @@ googleflow.intent('Item Selected', (conv, params, option) => {
 // read all ingredients
 googleflow.intent('All Ingredients', conv => {
   let currentRecipe = sessionsStorage[conv.id].currentRecipe;
-  
-  CurrentRecipe.ingredients.forEach(ingredient => {
+
+  currentRecipe.ingredients.forEach(ingredient => {
     conv.ask(ingredient);
   })
 });
