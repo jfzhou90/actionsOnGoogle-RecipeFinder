@@ -82,7 +82,7 @@ googleflow.intent('Query Recipe', conv => {
         })
       }
       // saving current search to session, so it can be used later
-      sessionsStorage[conv.id][dish.title] = {id: dish.id, url: searchResult.baseUri + dish.imageUrls}
+      sessionsStorage[conv.id][dish.title] = { id: dish.id, url: searchResult.baseUri + dish.imageUrls }
     });
 
     conv.ask(`Here are some of recipes for ${conv.body.queryResult.parameters.food}. Click on one to get started.`);
@@ -121,21 +121,20 @@ googleflow.intent('Item Selected', (conv, params, option) => {
 
 // read all ingredients
 googleflow.intent('All Ingredients', conv => {
-  if(!sessionsStorage[conv.id] || sessionsStorage[conv.id].currentRecipe.ingredients.length < 1){
+  if (!sessionsStorage[conv.id] || !sessionsStorage[conv.id].currentRecipe.ingredients || sessionsStorage[conv.id].currentRecipe.ingredients.length == 0) {
     conv.ask("I don't have anything. Let's find a recipe together.");
     return;
-  } else {
-    let allIngredients = sessionsStorage[conv.id].currentRecipe.ingredients.join(',\n');
-    conv.ask(allIngredients);
   }
+  let allIngredients = sessionsStorage[conv.id].currentRecipe.ingredients.join(',\n');
+  conv.ask(allIngredients);
 });
 
 googleflow.intent('Step by Step', conv => {
-  
+
 });
 
 googleflow.intent('Repeat', conv => {
-  
+
 });
 
 // Intent in Dialogflow called `Goodbye`
