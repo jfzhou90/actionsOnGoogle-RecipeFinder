@@ -90,14 +90,14 @@ googleflow.intent('Query Recipe', conv => {
 
 googleflow.intent('Item Selected', (conv, params, option) => {
   console.log(params);
-  console.log(option);
-  let response = 'You did not select any item from the list or carousel';
+  // console.log(option);
+  // let response = 'You did not select any item from the list or carousel';
   // if (option && searchResult.results.items.hasOwnProperty(option)) {
   //   response = SELECTED_ITEM_RESPONSES[option];
   // } else {
   //   response = 'You selected an unknown item from the list or carousel';
   // }
-  conv.ask(response);
+  conv.ask("Who am I?");
 });
 
 // Intent in Dialogflow called `Goodbye`
