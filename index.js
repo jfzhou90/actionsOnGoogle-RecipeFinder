@@ -66,10 +66,9 @@ googleflow.intent('Query Recipe', conv => {
 
   // Replace this with fake data with request call when app is ready for deployment
   let searchResult = fakeData.getAll();
-  console.log(searchResult)
-  if(searchResult.results.length > 2){
-    let carouselObj = {items:{}};
-    let  = searchResult.results.forEach(dish => {
+  if (searchResult.results.length > 2) {
+    let carouselObj = { items: {} };
+    searchResult.results.forEach(dish => {
       carouselObj.items[dish] = {
         title: dish.title,
         description: `${dish.servings} servings, ready in ${dish.readyInMinutes} minutes.`,
@@ -78,6 +77,7 @@ googleflow.intent('Query Recipe', conv => {
           alt: dish.title,
         })
       }
+      console.log(carouselObj);
     });
 
     conv.ask(`Here are some of recipes about ${conv.body.queryResult.parameters.food}`);
