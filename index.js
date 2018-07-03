@@ -79,13 +79,13 @@ googleflow.intent('Query Recipe', conv => {
         description: `${dish.servings} servings.\nReady in ${dish.readyInMinutes} minutes.`,
         image: new Image({
           url: searchResult.baseUri + dish.imageUrls,
-          alt: dish.title,
+          alt: dish.title
         })
       }
       // sessionsStorage.sessionId[dish.title] = dish.id;
     });
 
-    console.log(sessionsStorage);
+    console.log(conv);
     conv.ask(`Here are some of recipes for ${conv.body.queryResult.parameters.food}. Click on one to get started.`);
     // Create a carousel
     conv.ask(new Carousel(carouselObj));
