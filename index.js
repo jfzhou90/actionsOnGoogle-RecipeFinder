@@ -134,10 +134,8 @@ googleflow.intent('All Ingredients', conv => {
   }
   let allIngredients = sessionsStorage[conv.id].currentRecipe.ingredients.join('\n');
   sessionsStorage[conv.id].currentRecipe.counter = sessionsStorage[conv.id].currentRecipe.ingredients.length;
-  function saySSML(conv) {
-    conv.ask(`<speak>${allIngredients}\n <break time="2" />Would you like me to read the instructions?</speak>`);
-  }
-  // conv.ask(`<speak>${allIngredients}\n <break time="2" />Would you like me to read the instructions?</speak>`);
+
+  conv.ask(`${allIngredients}\n Would you like me to read the instructions?`);
 });
 
 googleflow.intent('Step by Step', conv => {
@@ -155,13 +153,9 @@ googleflow.intent('Step by Step', conv => {
     sessionsStorage[conv.id].currentRecipe.currentStep = sessionsStorage[conv.id].currentRecipe.ingredients[count];
     let response = sessionsStorage[conv.id].currentRecipe.ingredients[count];
     if (count == ingredientLength - 1) {
-      response += `\n<break time="2" />That is the last ingredient, let's start cooking. Ready?`
+      response += `\nThat is the last ingredient, let's start cooking. Ready?`
     }
-
-    function saySSML(conv) {
-      conv.ask(`<speak>${response}</speak>`);
-    }
-    // conv.ask(`<speak>${response}</speak>`);
+    conv.ask(response);
     count++;
     sessionsStorage[conv.id].currentRecipe.counter = count;
     return;
