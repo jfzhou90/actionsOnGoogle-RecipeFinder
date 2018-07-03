@@ -80,7 +80,7 @@ googleflow.intent('Query Recipe', conv => {
           alt: dish.title
         })
       }
-      sessionsStorage[sessionId][dish.title] = dish.id;
+      sessionsStorage[conv.id][dish.title] = dish.id;
     });
 
     conv.ask(`Here are some of recipes for ${conv.body.queryResult.parameters.food}. Click on one to get started.`);
