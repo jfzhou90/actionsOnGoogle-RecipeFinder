@@ -136,7 +136,7 @@ googleflow.intent('All Ingredients', conv => {
   sessionsStorage[conv.id].currentRecipe.counter = sessionsStorage[conv.id].currentRecipe.ingredients.length;
 
   function saySSML(conv) {
-    const ssml = `<speak>${allIngredients}\n<break time="3" /> Would you like me to read the instructions?</speak>`
+    const ssml = '<speak>'+allIngredients+'<break time="3" />Would you like me to read the instructions?</speak>'
     conv.ask(ssml);
   }
    saySSML(conv);
@@ -169,7 +169,7 @@ googleflow.intent('Step by Step', conv => {
   console.log(`count is now ${count}`);
   if (count < totalSteps) {
     let newCount = count - ingredientLength;
-    let response = sessionsStorage[conv.id].currentRecipe.instructions[count];
+    let response = sessionsStorage[conv.id].currentRecipe.instructions[newCount];
     if (newCount == instructionLength - 1) {
       response += "That's the last step, please enjoy."
     }
