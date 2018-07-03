@@ -49,7 +49,7 @@ googleflow.intent('Default Welcome Intent', conv => {
 // Intent in Dialogflow called `Goodbye`
 googleflow.intent('Query Recipe', conv => {
   console.log(conv.body);
-  conv.ask('Here are some of the related recipes')
+  conv.ask(`Here are some of recipes about ${conv.body.queryResult.parameters.food}`)
 })
 
 // Intent in Dialogflow called `Goodbye`
