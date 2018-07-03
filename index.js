@@ -15,20 +15,25 @@ app.use(
 
 app.use(bodyParser.json());
 
-app.use(function(request, response, next) {
+// fake data section.
+fakeData.initializeData();
+let fakeGroup = fakeData.getAll();
+let fakeOne = fakeData.getOne();
+
+app.use(function (request, response, next) {
   response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-Authentication");
   response.header("Access-Control-Allow-Origin", "*");
   // console.log(request.body)
-  
+
   // Pre-flight Request
   if ('OPTIONS' == request.method) {
-      return response.status(200).send();
+    return response.status(200).send();
   }
 
   next();
 });
 
-// require('./routes/dialogFlowRoutes')(app);
+require('./routes/dialogFlowRoutes')(app);
 
 
 //----------------------------------------------------------- DialogFlow Side ----------------------------------------------------------//
@@ -46,10 +51,65 @@ googleflow.intent('Default Welcome Intent', conv => {
   }))
 })
 
-// Intent in Dialogflow called `Goodbye`
+// Intent in Dialogflow called `Query Recipe`
 googleflow.intent('Query Recipe', conv => {
   console.log(conv.body);
-  conv.ask(`Here are some of recipes about ${conv.body.queryResult.parameters.food}`)
+
+  if (!conv.surface.capabilities.has('actions.capability.SCREEN_OUTPUT')) {
+    conv.ask('Sorry, try this on a screen device or select the ' +
+      'phone surface in the simulator.');
+    return;
+  }
+
+  conv.ask(`Here are some of recipes about ${conv.body.queryResult.parameters.food}`);
+  // Create a carousel
+  conv.ask(new Carousel({
+    items: {
+      // Add the first item to the carousel
+      [SELECTION_KEY_ONE]: {
+        synonyms: [
+          'synonym of title 1',
+          'synonym of title 2',
+          'synonym of title 3',
+        ],
+        title: 'Title of First Carousel Item',
+        description: 'This is a description of a carousel item.',
+        image: new Image({
+          url: IMG_URL_AOG,
+          alt: 'Image alternate text',
+        }),
+      },
+      // Add the second item to the carousel
+      [SELECTION_KEY_GOOGLE_HOME]: {
+        synonyms: [
+          'Google Home Assistant',
+          'Assistant on the Google Home',
+        ],
+        title: 'Google Home',
+        description: 'Google Home is a voice-activated speaker powered by ' +
+          'the Google Assistant.',
+        image: new Image({
+          url: IMG_URL_GOOGLE_HOME,
+          alt: 'Google Home',
+        }),
+      },
+      // Add third item to the carousel
+      [SELECTION_KEY_GOOGLE_PIXEL]: {
+        synonyms: [
+          'Google Pixel XL',
+          'Pixel',
+          'Pixel XL',
+        ],
+        title: 'Google Pixel',
+        description: 'Pixel. Phone by Google.',
+        image: new Image({
+          url: IMG_URL_GOOGLE_PIXEL,
+          alt: 'Google Pixel',
+        }),
+      },
+    },
+  }));
+
 })
 
 // Intent in Dialogflow called `Goodbye`

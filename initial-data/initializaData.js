@@ -6,7 +6,7 @@ let individualCauliflower;
 module.exports = {
     initializeData() {
         // Reading cauliflower-search.json file and pushing it to an array.
-        fs.readFile(__dirname + '/dataA.json', 'utf8', function (error, data) {
+        fs.readFile(__dirname + '/cauliflower-search.json', 'utf8', function (error, data) {
             if (error) throw error;
             cauliflower = JSON.parse(data);
             console.log(`Server setup: ${cauliflower.results.length} types cauliflower dishes loaded.`);
@@ -24,7 +24,7 @@ module.exports = {
         return cauliflower;
     },
 
-    getSpecific() {
+    getOne() {
         return individualCauliflower;
     }
 }
