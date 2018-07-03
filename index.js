@@ -118,6 +118,7 @@ googleflow.intent('Item Selected', (conv, params, option) => {
     sessionsStorage[conv.id].currentRecipe.ingredients.push(ingredient.originalString);
   })
   console.log(sessionsStorage[conv.id].currentRecipe.ingredients)
+  conv.ask(sessionsStorage[conv.id].currentRecipe.ingredients[2]);
 });
 
 googleflow.intent('All Ingredient', conv => {
