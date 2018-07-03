@@ -27,7 +27,7 @@ app.use(function(request, response, next) {
 
 require('./routes/dialogFlowRoutes')(app);
 
-app.listen(process.env.PORT || 8000, function () {
+express().use(bodyParser.json(), app).listen(process.env.PORT || 8000, function () {
   fakeData.initializeData();
   console.log(`Server up and listening on ${process.env.PORT || 8000} `);
 });

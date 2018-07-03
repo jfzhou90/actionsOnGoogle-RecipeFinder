@@ -10,6 +10,7 @@
   "author": "Joey Zhou",
   "license": "ISC",
   "dependencies": {
+    "actions-on-google": "^2.2.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.3"
   }
