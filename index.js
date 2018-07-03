@@ -136,8 +136,8 @@ googleflow.intent('All Ingredients', conv => {
   sessionsStorage[conv.id].currentRecipe.counter = sessionsStorage[conv.id].currentRecipe.ingredients.length;
 
   function saySSML(conv) {
-    const ssml = '<speak>' + allIngredients + ' <break time="3" />. ' + 'Would you like me to read the instructions?' + '</speak>';
-    conv.ask(ssml);
+    const ssml = '<speak>' + ' <break time="3" />. ' + 'Would you like me to read the instructions?' + '</speak>';
+    conv.ask(allIngredients + ssml);
   }
    saySSML(conv);
   // conv.ask(`${allIngredients}\n Would you like me to read the instructions?`);
