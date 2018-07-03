@@ -75,7 +75,7 @@ googleflow.intent('Query Recipe', conv => {
     searchResult.results.forEach(dish => {
       carouselObj.items[dish.title] = {
         title: dish.title,
-        description: `${dish.servings} servings. Ready in ${dish.readyInMinutes} minutes.`,
+        description: `${dish.servings} servings.\n Ready in ${dish.readyInMinutes} minutes.`,
         image: new Image({
           url: searchResult.baseUri + dish.imageUrls,
           alt: dish.title
@@ -121,8 +121,8 @@ googleflow.intent('Item Selected', (conv, params, option) => {
 
 // read all ingredients
 googleflow.intent('All Ingredients', conv => {
-  if(sessionStorage[conv.id] && sessionsStorage[conv.id].currentRecipe.ingredients.length == 0){
-    conv.ask("I don't have anything. Let's find another recipe");
+  if(sessionsStorage[conv.id] && sessionsStorage[conv.id].currentRecipe.ingredients.length == 0){
+    conv.ask("I don't have anything. Let's find a recipe together.");
   }
   let allIngredients = sessionsStorage[conv.id].currentRecipe.ingredients.join();
   conv.ask(allIngredients);
