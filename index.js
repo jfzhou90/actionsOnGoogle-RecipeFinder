@@ -61,7 +61,7 @@ googleflow.intent('Default Fallback Intent', conv => {
   conv.ask(`I didn't understand. Can you tell me something else?`)
 })
 
-express().use(bodyParser.json(), googleflow).listen(process.env.PORT || 8000, function () {
+express().use(bodyParser.json(), app, googleflow).listen(process.env.PORT || 8000, function () {
   fakeData.initializeData();
   console.log(`Server up and listening on ${process.env.PORT || 8000} `);
 });
