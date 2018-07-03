@@ -82,8 +82,7 @@ googleflow.intent('Query Recipe', conv => {
         })
       }
       // saving current search to session, so it can be used later
-      sessionsStorage[conv.id][dish.title].id = dish.id;
-      sessionsStorage[conv.id][dish.title].url = searchResult.baseUri + dish.imageUrls;
+      sessionsStorage[conv.id][dish.title] = {id: dish.id, url = searchResult.baseUri + dish.imageUrls}
     });
 
     conv.ask(`Here are some of recipes for ${conv.body.queryResult.parameters.food}. Click on one to get started.`);
