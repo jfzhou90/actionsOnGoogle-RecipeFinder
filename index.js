@@ -58,7 +58,7 @@ googleflow.intent('Default Welcome Intent', conv => {
 
 // Intent in Dialogflow called `Query Recipe`
 googleflow.intent('Query Recipe', conv => {
-  console.log(conv.body.user);
+  console.log(conv.body);
 
   if (!conv.surface.capabilities.has('actions.capability.SCREEN_OUTPUT')) {
     conv.ask('Sorry, try this on a screen device.');
@@ -82,27 +82,20 @@ googleflow.intent('Query Recipe', conv => {
       }
     });
 
-    conv.ask(`Here are some of recipes about ${conv.body.queryResult.parameters.food}`);
+    conv.ask(`Here are some of recipes for ${conv.body.queryResult.parameters.food}. Click on one to get started.`);
     // Create a carousel
     conv.ask(new Carousel(carouselObj));
   }
 })
 
 googleflow.intent('Item Selected', (conv, params, option) => {
-  console.log("-Conv-")
-  console.log(conv);
-  console.log("-params-")
-  console.log(params);
-  console.log("-option-")
-  console.log(option);
-  // console.log(option);
-  // let response = 'You did not select any item from the list or carousel';
-  // if (option && searchResult.results.items.hasOwnProperty(option)) {
-  //   response = SELECTED_ITEM_RESPONSES[option];
-  // } else {
-  //   response = 'You selected an unknown item from the list or carousel';
-  // }
-  conv.ask("Who am I?");
+  let response = 'You did not select any item from the list or carousel';
+  if (option && searchResult.results.items.hasOwnProperty(option)) {
+    response = `You have selected ${option}. Would you like me to read all the ingredients or one at a time?`;
+  } else {
+    response = 'You selected an unknown item from the carousel';
+  }
+  conv.ask(response);
 });
 
 // Intent in Dialogflow called `Goodbye`
