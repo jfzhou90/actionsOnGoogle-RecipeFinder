@@ -151,7 +151,7 @@ googleflow.intent('Step by Step', conv => {
   if(count < sessionsStorage[conv.id].currentRecipe.ingredients.length){
     sessionsStorage[conv.id].currentRecipe.currentStep = sessionsStorage[conv.id].currentRecipe.ingredients[count];
     conv.ask(sessionsStorage[conv.id].currentRecipe.ingredients[count]);
-    count++;
+    sessionsStorage[conv.id].currentRecipe.counter = count++;
   }
   console.log(sessionsStorage[conv.id].currentRecipe)
 
