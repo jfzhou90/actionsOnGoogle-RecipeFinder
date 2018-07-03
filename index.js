@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 const routes = require('./routes/dialogFlowRoutes')
-const { dialogflow, Image } = require('actions-on-google')
+const { dialogflow, Image, Carousel } = require('actions-on-google')
 
 //----------------------------------------------------------- Express server side ----------------------------------------------------------//
 const app = express();
@@ -53,7 +53,7 @@ googleflow.intent('Default Welcome Intent', conv => {
 
 // Intent in Dialogflow called `Query Recipe`
 googleflow.intent('Query Recipe', conv => {
-  console.log(conv.body);
+  console.log(googleflow.getArgument('food'));
 
   if (!conv.surface.capabilities.has('actions.capability.SCREEN_OUTPUT')) {
     conv.ask('Sorry, try this on a screen device or select the ' +
@@ -91,23 +91,9 @@ googleflow.intent('Query Recipe', conv => {
         image: new Image({
           url: IMG_URL_GOOGLE_HOME,
           alt: 'Google Home',
-        }),
-      },
-      // Add third item to the carousel
-      [SELECTION_KEY_GOOGLE_PIXEL]: {
-        synonyms: [
-          'Google Pixel XL',
-          'Pixel',
-          'Pixel XL',
-        ],
-        title: 'Google Pixel',
-        description: 'Pixel. Phone by Google.',
-        image: new Image({
-          url: IMG_URL_GOOGLE_PIXEL,
-          alt: 'Google Pixel',
-        }),
-      },
-    },
+        })
+      }
+    }
   }));
 
 })
@@ -122,6 +108,5 @@ googleflow.intent('Default Fallback Intent', conv => {
 })
 
 express().use(bodyParser.json(), app, googleflow).listen(process.env.PORT || 8000, function () {
-  fakeData.initializeData();
   console.log(`Server up and listening on ${process.env.PORT || 8000} `);
 });
