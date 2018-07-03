@@ -123,6 +123,7 @@ googleflow.intent('Item Selected', (conv, params, option) => {
 
 // read all ingredients
 googleflow.intent('All Ingredients', conv => {
+  console.log(sessionsStorage[conv.id])
   if (!sessionsStorage[conv.id] || !sessionsStorage[conv.id].currentRecipe.ingredients || sessionsStorage[conv.id].currentRecipe.ingredients.length == 0) {
     conv.ask("I don't have anything. Let's find a recipe together.");
     return;
@@ -134,6 +135,9 @@ googleflow.intent('All Ingredients', conv => {
 });
 
 googleflow.intent('Step by Step', conv => {
+  console.log(sessionsStorage[conv.id])
+  console.log(sessionsStorage[conv.id].currentRecipe.ingredients.length);
+  console.log(sessionsStorage[conv.id].currentRecipe.instructions.length);
   if (!sessionsStorage[conv.id] || sessionsStorage[conv.id].currentRecipe.ingredients.length == 0 || sessionsStorage[conv.id].currentRecipe.instructions.length == 0) {
     conv.ask("I don't have anything. Let's find a recipe together.");
     return;
