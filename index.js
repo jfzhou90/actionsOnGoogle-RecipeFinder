@@ -32,13 +32,14 @@ app.use(function (request, response, next) {
   next();
 });
 
-//----------------------------------------------------------- DialogFlow Side ----------------------------------------------------------//
-// stores sessions locally, resets everytime heroku falls to sleep or resets
+//----------------------------------------------------------- DialogFlow Side ------------------------------------------------------------------//
+// stores sessions locally, resets everytime heroku sleeps or resets
 let sessionsStorage = {}
 
 // Create an app instance
 const googleflow = dialogflow();
 
+// Middleware
 googleflow.middleware((conv) => {
   conv.hasScreen =
     conv.surface.capabilities.has('actions.capability.SCREEN_OUTPUT');
@@ -46,8 +47,7 @@ googleflow.middleware((conv) => {
     conv.surface.capabilities.has('actions.capability.AUDIO_OUTPUT');
 });
 
-// Register handlers for Dialogflow intents
-
+// -------------------------- Register handlers for Dialogflow intents --------------------//
 googleflow.intent('Default Welcome Intent', conv => {
   conv.ask('Hi, I\'m Charlie, I\'m your recipe buddy. What shall we cook today?');
   conv.ask(new Image({
@@ -100,6 +100,7 @@ googleflow.intent('Item Selected', (conv, params, option) => {
   } else {
     response = 'You selected an unknown item from the carousel';
   }
+
   conv.ask(response);
   conv.ask(new BasicCard({
     image: new Image({
@@ -107,7 +108,24 @@ googleflow.intent('Item Selected', (conv, params, option) => {
       alt: option
     })
   }))
+
+  // prefetch recipes here. replace getOne() with request call when app ready for deploy
+  let recipe = fakeData.getOne();
+  sessionsStorage[conv.id].currentRecipe.instructions = [];
+
+  recipe.extendedIngredients.forEach(ingredient => {
+    sessionsStorage[conv.id].currentRecipe.instructions.push(ingredient.originalString);
+  })
+  console.log(sessionsStorage)
 });
+
+googleflow.intent('All Ingredient', conv => {
+  
+})
+
+googleflow.intent('Repeat', conv => {
+  
+})
 
 // Intent in Dialogflow called `Goodbye`
 googleflow.intent('Goodbye', conv => {
