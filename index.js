@@ -88,8 +88,8 @@ googleflow.intent('Query Recipe', conv => {
   }
 })
 
-googleflow.intent('Item Selected', (conv, params, option) => {
-  console.log(params);
+googleflow.intent('Item Selected', conv => {
+  console.log(conv.body);
   // console.log(option);
   // let response = 'You did not select any item from the list or carousel';
   // if (option && searchResult.results.items.hasOwnProperty(option)) {
