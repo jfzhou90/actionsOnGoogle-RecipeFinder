@@ -23,7 +23,6 @@ let fakeOne = fakeData.getOne();
 app.use(function (request, response, next) {
   response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-Authentication");
   response.header("Access-Control-Allow-Origin", "*");
-  // console.log(request.body)
 
   // Pre-flight Request
   if ('OPTIONS' == request.method) {
@@ -32,9 +31,6 @@ app.use(function (request, response, next) {
 
   next();
 });
-
-require('./routes/dialogFlowRoutes')(app);
-
 
 //----------------------------------------------------------- DialogFlow Side ----------------------------------------------------------//
 // Create an app instance
@@ -60,7 +56,7 @@ googleflow.intent('Default Welcome Intent', conv => {
 
 // Intent in Dialogflow called `Query Recipe`
 googleflow.intent('Query Recipe', conv => {
-  console.log(conv.body);
+  // console.log(conv.body);
 
   if (!conv.surface.capabilities.has('actions.capability.SCREEN_OUTPUT')) {
     conv.ask('Sorry, try this on a screen device or select the ' +
@@ -68,54 +64,26 @@ googleflow.intent('Query Recipe', conv => {
     return;
   }
 
-  conv.ask(`Here are some of recipes about ${conv.body.queryResult.parameters.food}`);
-  // Create a carousel
-  conv.ask(new Carousel({
-    items: {
-      // Add the first item to the carousel
-      "A": {
-        synonyms: [
-          'synonym of title 1',
-          'synonym of title 2',
-          'synonym of title 3',
-        ],
-        title: 'Title of First Carousel Item',
-        description: 'This is a description of a carousel item.',
+  // Replace this with fake data with request call when app is ready for deployment
+  let searchResult = fakeData.getAll();
+  console.log(searchResult)
+  if(searchResult.results.length > 2){
+    let carouselObj = {items:{}};
+    let  = searchResult.results.forEach(dish => {
+      carouselObj.items[dish] = {
+        title: dish.title,
+        description: `${dish.servings} servings, ready in ${dish.readyInMinutes} minutes.`,
         image: new Image({
-          url: 'https://cdn.pixabay.com/photo/2016/01/10/18/59/charlie-brown-1132276_960_720.jpg',
-          alt: 'Image alternate text',
-        }),
-      },
-      // Add the second item to the carousel
-      "B": {
-        synonyms: [
-          'Google Home Assistant',
-          'Assistant on the Google Home',
-      ],
-        title: 'Google Home',
-        description: 'Google Home is a voice-activated speaker powered by ' +
-          'the Google Assistant.',
-        image: new Image({
-          url: 'https://cdn.pixabay.com/photo/2016/01/10/18/59/charlie-brown-1132276_960_720.jpg',
-          alt: 'Google Home',
-        }),
-      },
-      // Add third item to the carousel
-      "C": {
-        synonyms: [
-          'Google Pixel XL',
-          'Pixel',
-          'Pixel XL',
-        ],
-        title: 'Google Pixel',
-        description: 'Pixel. Phone by Google.',
-        image: new Image({
-          url: 'https://cdn.pixabay.com/photo/2016/01/10/18/59/charlie-brown-1132276_960_720.jpg',
-          alt: 'Google Pixel',
-        }),
-      },
-    },
-  }));
+          url: dish.baseUri + dish.imageUrls,
+          alt: dish.title,
+        })
+      }
+    });
+
+    conv.ask(`Here are some of recipes about ${conv.body.queryResult.parameters.food}`);
+    // Create a carousel
+    conv.ask(new Carousel(carouselObj));
+  }
 })
 
 // Intent in Dialogflow called `Goodbye`
