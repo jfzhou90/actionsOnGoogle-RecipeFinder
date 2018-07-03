@@ -82,8 +82,8 @@ googleflow.intent('Query Recipe', conv => {
         })
       }
       // saving current search to session, so it can be used later
-      sessionsStorage[conv.id][dish.title][id] = dish.id;
-      sessionsStorage[conv.id][dish.title][url] = searchResult.baseUri + dish.imageUrls;
+      sessionsStorage[conv.id][dish.title].id = dish.id;
+      sessionsStorage[conv.id][dish.title].url = searchResult.baseUri + dish.imageUrls;
     });
 
     conv.ask(`Here are some of recipes for ${conv.body.queryResult.parameters.food}. Click on one to get started.`);
@@ -97,7 +97,7 @@ googleflow.intent('Item Selected', (conv, params, option) => {
   if (option && sessionsStorage[conv.id].hasOwnProperty(option)) {
     sessionsStorage[conv.id].currentRecipe.id = sessionsStorage[conv.id][option].id;
 
-    response = `You have selected ${option}. Let's start with the ingredients, shall we?`;
+    response = `You have selected ${option}. Would you like me to read all the ingredients or one at a time?`;
   } else {
     response = 'You selected an unknown item from the carousel';
   }
