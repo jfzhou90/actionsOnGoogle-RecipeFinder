@@ -76,7 +76,7 @@ googleflow.intent('Query Recipe', async conv => {
     console.log(tempUrl);
     let options = {
       method:'get',
-      url: baseUrl + 'search?number=10&offset=0&query=' + conv.body.queryResult.parameters.food,
+      url: tempUrl,
       headers: {
         'X-Mashape-Key': apiKey,
         'X-Mashape-Host': host
