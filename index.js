@@ -79,7 +79,7 @@ googleflow.intent('Query Recipe', async conv => {
 
   // Replace this with fake data with request call when app is ready for deployment
   await request.get(options, (error, response, body) => {
-    if(body.results.length != 0){
+    if(body.results){
       searchResult = body;
       console.log("1" + searchResult);
     }
