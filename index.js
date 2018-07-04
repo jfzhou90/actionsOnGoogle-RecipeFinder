@@ -116,7 +116,7 @@ googleflow.intent('Query Recipe', async conv => {
   }
 })
 
-googleflow.intent('Item Selected', (conv, params, option) => {
+googleflow.intent('Item Selected', async (conv, params, option) => {
   let response = 'You did not select any item from the list or carousel';
   sessionsStorage[conv.id].currentRecipe = {}
   if (option && sessionsStorage[conv.id].hasOwnProperty(option)) {
