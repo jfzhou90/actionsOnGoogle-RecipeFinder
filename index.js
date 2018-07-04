@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 const routes = require('./routes/dialogFlowRoutes')
+const WtoN = require('words-to-num');
 const { dialogflow, BasicCard, BrowseCarousel, BrowseCarouselItem, Button, Carousel, Image, LinkOutSuggestion, List, MediaObject, Suggestions, SimpleResponse, Table } = require('actions-on-google');
 
 //----------------------------------------------------------- Express server side ----------------------------------------------------------//
@@ -170,7 +171,7 @@ googleflow.intent('Step by Step', conv => {
     if (newCount == instructionLength - 1) {
       response += ". \nThat's the last step, please enjoy."
     }
-    conv.ask(response);
+    conv.ask(`Step ${newCount+1}: ${response}`);
     count++;
     sessionsStorage[conv.id].currentRecipe.counter = count;
     return;
@@ -178,9 +179,36 @@ googleflow.intent('Step by Step', conv => {
   conv.ask('Hmm, there are no steps left, would you like to find another recipe?')
 });
 
+googleflow.intent('Repeat Step', conv => {
+  if (!sessionsStorage[conv.id] || !sessionsStorage[conv.id].currentRecipe || !sessionsStorage[conv.id].currentRecipe.currentStep) {
+    conv.ask("Hmmm? I don't remember that we looked for any recipe, let's try finding one together.")
+    return;
+  }
+  let step = conv.body.queryResult.parameters.number;
+  let stepNumber = WtoN.convert(step);
+  if (step = 'first'){
+    stepNumber = 1;
+  } else if (step = 'second') {
+    stepNumber = 2;
+  } else if (step = 'third') {
+    stepNumber = 3;
+  }
+  console.log(stepNumber);
+
+  if (!sessionsStorage[conv.id].currentRecipe.instructions[stepNumber]){
+    conv.ask("Sorry, I don't think I know that step, could you try again?");
+    return;
+  }
+  let response = sessionsStorage[conv.id].currentRecipe.instructions[stepNumber - 1];
+  sessionsStorage[conv.id].currentRecipe.currentStep = response;
+  sessionsStorage[conv.id].currentRecipe.counter = stepNumber - 1;
+  conv.ask(response);
+});
+
 googleflow.intent('Repeat', conv => {
   if (!sessionsStorage[conv.id] || !sessionsStorage[conv.id].currentRecipe || !sessionsStorage[conv.id].currentRecipe.currentStep) {
     conv.ask("Hmmm? I don't remember that we looked for any recipe, let's try finding one together.")
+    return;
   }
   conv.ask(sessionsStorage[conv.id].currentRecipe.currentStep);
 });
@@ -188,14 +216,15 @@ googleflow.intent('Repeat', conv => {
 googleflow.intent('Restart', conv => {
   if (!sessionsStorage[conv.id] || !sessionsStorage[conv.id].currentRecipe || !sessionsStorage[conv.id].currentRecipe.currentStep) {
     conv.ask("Hmmm? I don't remember that we looked for any recipe, let's try finding one together.")
+    return;
   }
-  sessionsStorage[conv.id].currentRecipe.counter = 1;
-  conv.ask(sessionsStorage[conv.id].currentRecipe.ingredients[0]);
+  sessionsStorage[conv.id].currentRecipe.counter = 0;
+  conv.ask('Would you like me to real all ingredients or one at a time?');
 });
 
 // Intent in Dialogflow called `Goodbye`
 googleflow.intent('Goodbye', conv => {
-  conv.close('See you later!')
+  conv.close('Thanks for cooking with me. See you later!')
 })
 
 googleflow.intent('Default Fallback Intent', conv => {
