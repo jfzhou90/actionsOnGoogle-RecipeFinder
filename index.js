@@ -183,7 +183,6 @@ googleflow.intent('Repeat Step', conv => {
     return;
   }
   let step = conv.body.queryResult.parameters.number;
-  console.log(step);
   let stepNumber = WtoN.convert(step);
   if (step = 'first'){
     stepNumber = 1;
@@ -192,6 +191,7 @@ googleflow.intent('Repeat Step', conv => {
   } else if (step = 'third') {
     stepNumber = 3;
   }
+  console.log(step);
   console.log(stepNumber);
 
   if (!sessionsStorage[conv.id].currentRecipe.instructions[stepNumber]){
@@ -201,7 +201,7 @@ googleflow.intent('Repeat Step', conv => {
   let response = sessionsStorage[conv.id].currentRecipe.instructions[stepNumber - 1];
   sessionsStorage[conv.id].currentRecipe.currentStep = response;
   sessionsStorage[conv.id].currentRecipe.counter = stepNumber - 1;
-  conv.ask(response);
+  conv.ask(`Step ${stepNumber}: ${response}`);
 });
 
 googleflow.intent('Repeat', conv => {
