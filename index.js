@@ -180,7 +180,7 @@ googleflow.intent('Step by Step', conv => {
 });
 
 googleflow.intent('Repeat Step', conv => {
-  if (!sessionsStorage[conv.id] || !sessionsStorage[conv.id].currentRecipe || !sessionsStorage[conv.id].currentRecipe.currentStep) {
+  if (!sessionsStorage[conv.id] || !sessionsStorage[conv.id].currentRecipe.instructions) {
     conv.ask("Hmmm? I don't remember that we looked for any recipe, let's try finding one together.")
     return;
   }
