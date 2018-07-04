@@ -78,12 +78,12 @@ googleflow.intent('Query Recipe', async conv => {
   };
 
   // Replace this with fake data with request call when app is ready for deployment
-  await Promise.all([request.get(options, async (error, response, body) => {
+  await request.get(options, async (error, response, body) => {
     if(body.results.length != 0){
       searchResult = body;
       console.log("1" + searchResult);
     }
-  })]);
+  });
 
   sessionsStorage[conv.id] = {};
   if (searchResult.results.length > 2) {
