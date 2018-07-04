@@ -68,10 +68,9 @@ googleflow.intent('Query Recipe', async conv => {
     return;
   }
 
-  let searchResult
+  let searchResult;
   let encodedString = conv.body.queryResult.parameters.food.replace(" ", "+")
 
-  // Replace this with fake data with request call when app is ready for deployment
   const searchQuery = async () => {
     let tempUrl = `${baseUrl}search?number=10&offset=0&query=${encodedString}`;
     try {
@@ -136,7 +135,28 @@ googleflow.intent('Item Selected', (conv, params, option) => {
   }))
 
   // prefetch recipes here. replace getOne() with request call when app ready for deploy
-  let recipe = fakeData.getOne();
+  let recipe;
+
+  const searchRecipe = async () => {
+    let tempUrl = `${baseUrl}${sessionsStorage[conv.id][option].id}/information`;
+    try {
+      const response = await axios({
+        method: 'get',
+        url: tempUrl,
+        headers: {
+          'X-Mashape-Key': apiKey,
+          'X-Mashape-Host': host
+        }
+      }).then(response => {
+        recipe = response.data;
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  await searchRecipe();
+
   sessionsStorage[conv.id].currentRecipe.ingredients = [];
   sessionsStorage[conv.id].currentRecipe.instructions = [];
   sessionsStorage[conv.id].currentRecipe.currentStep = null;
