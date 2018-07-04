@@ -81,10 +81,10 @@ googleflow.intent('Query Recipe', async conv => {
   await Promise.all([request.get(options, async (error, response, body) => {
     if(body.results.length != 0){
       searchResult = body;
+      console.log("1" + searchResult);
     }
   })]);
-  
-  console.log("1" + searchResult);
+
   sessionsStorage[conv.id] = {};
   if (searchResult.results.length > 2) {
     let carouselObj = { items: {} };
