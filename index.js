@@ -81,7 +81,7 @@ googleflow.intent('Query Recipe', async conv => {
       },
     };
     try {
-      const response = await axios.get(config);
+      const response = await axios.get(options);
       searchResult = response.data;
       console.log("test1");
     } catch (error) {
