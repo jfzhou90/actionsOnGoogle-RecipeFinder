@@ -73,6 +73,7 @@ googleflow.intent('Query Recipe', async conv => {
 
   const searchQuery = async () => {
     let tempUrl = `${baseUrl}search?number=10&offset=0&query=${encodedString}`;
+    console.log('this is group: '+tempUrl);
     try {
       const response = await axios({
         method: 'get',
@@ -139,6 +140,7 @@ googleflow.intent('Item Selected', (conv, params, option) => {
 
   const searchRecipe = async () => {
     let tempUrl = `${baseUrl}${sessionsStorage[conv.id][option].id}/information`;
+    console.log('this is single: '+tempUrl);
     try {
       const response = await axios({
         method: 'get',
