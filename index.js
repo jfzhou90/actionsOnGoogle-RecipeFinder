@@ -183,7 +183,6 @@ googleflow.intent('Repeat Step', conv => {
     conv.ask("Hmmm? I don't remember that we looked for any recipe, let's try finding one together.")
     return;
   }
-  console.log(conv.body)
   let step = conv.body.queryResult.parameters.number;
   let stepNumber = WtoN.convert(step);
   if (step == 'first'){
@@ -192,7 +191,7 @@ googleflow.intent('Repeat Step', conv => {
     stepNumber = 2;
   } else if (step == 'third') {
     stepNumber = 3;
-  } else if (conv.body.queryResult.parameters.queryText.includes('last')) {
+  } else if (conv.body.queryResult.queryText.includes('last')) {
     stepNumber = sessionsStorage[conv.id].currentRecipe.instructions.length;
   }
   console.log(sessionsStorage[conv.id].currentRecipe.instructions.length)
