@@ -91,6 +91,7 @@ googleflow.intent('Query Recipe', async conv => {
           'X-Mashape-Host': host
         }
       }).then(response => {
+        console.log(response);
         searchResult = response.data;
       })
       console.log("test1");
