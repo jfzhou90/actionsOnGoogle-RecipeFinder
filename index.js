@@ -192,7 +192,7 @@ googleflow.intent('Repeat Step', conv => {
   } else if (step == 'third') {
     stepNumber = 3;
   } else if (step == 'last') {
-    stepNumber = sessionsStorage[conv.id].currentRecipe.ingredients.length;
+    stepNumber = sessionsStorage[conv.id].currentRecipe.instructions.length;
   }
 
   if (!sessionsStorage[conv.id].currentRecipe.instructions[stepNumber-1]){
@@ -215,7 +215,7 @@ googleflow.intent('Find Ingredient', conv => {
   let term = conv.body.queryResult.parameters.ingredients
   var splits = term.split(' ', 1);
   let matchedIngredient = allIngredientsArray.filter(ingredient => ingredient.includes(splits[0]));
-  
+
   if(!matchedIngredient || matchedIngredient.length == 0){
     conv.ask("Don't think we're using that ingredient. Are you sure we're putting that into our food?");
     return;
