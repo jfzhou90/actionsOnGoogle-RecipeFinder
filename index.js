@@ -128,7 +128,6 @@ googleflow.intent('Item Selected', (conv, params, option) => {
 
 // read all ingredients
 googleflow.intent('All Ingredients', conv => {
-  console.log(sessionsStorage[conv.id])
   if (!sessionsStorage[conv.id] || !sessionsStorage[conv.id].currentRecipe.ingredients || sessionsStorage[conv.id].currentRecipe.ingredients.length == 0) {
     conv.ask("I don't have anything. Let's find a recipe together.");
     return;
@@ -162,8 +161,7 @@ googleflow.intent('Step by Step', conv => {
     sessionsStorage[conv.id].currentRecipe.counter = count;
     return;
   }
-  console.log(`totalSteps is now ${totalSteps}`);
-  console.log(`count is now ${count}`);
+
   if (count < totalSteps) {
     let newCount = count - ingredientLength;
     let response = sessionsStorage[conv.id].currentRecipe.instructions[newCount];
@@ -185,6 +183,7 @@ googleflow.intent('Repeat Step', conv => {
     return;
   }
   let step = conv.body.queryResult.parameters.number;
+  console.log(step);
   let stepNumber = WtoN.convert(step);
   if (step = 'first'){
     stepNumber = 1;
