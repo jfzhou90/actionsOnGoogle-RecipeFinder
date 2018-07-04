@@ -72,6 +72,8 @@ googleflow.intent('Query Recipe', async conv => {
 
   // Replace this with fake data with request call when app is ready for deployment
   const searchQuery = async () => {
+    let tempUrl = baseUrl + 'search?number=10&offset=0&query=' + conv.body.queryResult.parameters.food;
+    console.log(tempUrl);
     let options = {
       method:'get',
       url: baseUrl + 'search?number=10&offset=0&query=' + conv.body.queryResult.parameters.food,
@@ -89,7 +91,7 @@ googleflow.intent('Query Recipe', async conv => {
     }
   };
 
-  searchQuery();
+  await searchQuery();
 
   sessionsStorage[conv.id] = {};
   if (searchResult.results.length > 2) {
