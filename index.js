@@ -94,6 +94,7 @@ googleflow.intent('Query Recipe', conv => {
 
 googleflow.intent('Item Selected', (conv, params, option) => {
   let response = 'You did not select any item from the list or carousel';
+  sessionsStorage[conv.id].currentRecipe = {} 
   if (option && sessionsStorage[conv.id].hasOwnProperty(option)) {
     sessionsStorage[conv.id].currentRecipe.id = sessionsStorage[conv.id][option].id;
 
@@ -112,7 +113,6 @@ googleflow.intent('Item Selected', (conv, params, option) => {
 
   // prefetch recipes here. replace getOne() with request call when app ready for deploy
   let recipe = fakeData.getOne();
-  sessionsStorage[conv.id].currentRecipe = {} 
   sessionsStorage[conv.id].currentRecipe.ingredients = [];
   sessionsStorage[conv.id].currentRecipe.instructions = [];
   sessionsStorage[conv.id].currentRecipe.currentStep = null;
