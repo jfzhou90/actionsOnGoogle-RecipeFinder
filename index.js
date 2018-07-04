@@ -195,6 +195,7 @@ googleflow.intent('Repeat Step', conv => {
     stepNumber = sessionsStorage[conv.id].currentRecipe.instructions.length;
   }
 
+  console.log(stepNumber);
   if (!sessionsStorage[conv.id].currentRecipe.instructions[stepNumber-1]){
     conv.ask("Sorry, I don't think I know that step, could you try again?");
     return;
