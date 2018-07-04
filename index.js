@@ -79,36 +79,35 @@ googleflow.intent('Query Recipe', async conv => {
 
   // Replace this with fake data with request call when app is ready for deployment
   await request.get(options, (error, response, body) => {
-    if (body.results) {
+    if(body.results){
       searchResult = body;
-      sessionsStorage[conv.id] = {};
-      if (searchResult.results.length > 2) {
-        let carouselObj = { items: {} };
-
-        // for each search result, create an detail obj in the carouselObj.items
-        searchResult.results.forEach(dish => {
-          carouselObj.items[dish.title] = {
-            title: dish.title,
-            description: `${dish.servings} servings.\n Ready in ${dish.readyInMinutes} minutes.`,
-            image: new Image({
-              url: searchResult.baseUri + dish.imageUrls,
-              alt: dish.title
-            })
-          }
-          // saving current search to session, so it can be used later
-          sessionsStorage[conv.id][dish.title] = { id: dish.id, url: searchResult.baseUri + dish.imageUrls }
-        });
-
-        conv.ask(`Here are some of recipes for ${conv.body.queryResult.parameters.food}. Click on one to get started.`);
-        // Create a carousel
-        conv.ask(new Carousel(carouselObj));
-        return;
-      }
-    } else {
-      conv.ask(`Sorry, Couldn't find anything about ${conv.body.queryResult.parameters.food}`);
-      return;
     }
+    console.log("i'm here")
   });
+
+  sessionsStorage[conv.id] = {};
+  if (searchResult.results.length > 2) {
+    let carouselObj = { items: {} };
+
+    // for each search result, create an detail obj in the carouselObj.items
+    searchResult.results.forEach(dish => {
+      carouselObj.items[dish.title] = {
+        title: dish.title,
+        description: `${dish.servings} servings.\n Ready in ${dish.readyInMinutes} minutes.`,
+        image: new Image({
+          url: searchResult.baseUri + dish.imageUrls,
+          alt: dish.title
+        })
+      }
+      // saving current search to session, so it can be used later
+      sessionsStorage[conv.id][dish.title] = { id: dish.id, url: searchResult.baseUri + dish.imageUrls }
+    });
+    console.log("2" + searchResult)
+
+    conv.ask(`Here are some of recipes for ${conv.body.queryResult.parameters.food}. Click on one to get started.`);
+    // Create a carousel
+    conv.ask(new Carousel(carouselObj));
+  }
 })
 
 googleflow.intent('Item Selected', (conv, params, option) => {
