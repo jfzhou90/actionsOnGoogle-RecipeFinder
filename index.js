@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 const routes = require('./routes/dialogFlowRoutes')
 const WtoN = require('words-to-num');
-const request = require('request');
+const axios = require("axios");
 const { dialogflow, BasicCard, BrowseCarousel, Carousel, Image, LinkOutSuggestion, ListSimpleResponse } = require('actions-on-google');
 const baseUrl = 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/';
 const apiKey = 'kVM7CT6wCYmshTU7EIozWKueIIuvp1T4lifjsn8lzCKEbe9W7d';
@@ -69,21 +69,27 @@ googleflow.intent('Query Recipe', async conv => {
   }
 
   let searchResult = fakeData.getAll();
-  let options = {
-    url: baseUrl + `search?number=10&offset=0&query=${conv.body.queryResult.parameters.food}`,
-    headers: {
-      'X-Mashape-Key': apiKey,
-      'X-Mashape-Host': host
-    },
-  };
 
   // Replace this with fake data with request call when app is ready for deployment
-  await request.get(options, (error, response, body) => {
-    if(body.results){
-      searchResult = body;
+  const searchQuery = async () => {
+    let options = {
+      method:'get',
+      url: baseUrl + `search?number=10&offset=0&query=${conv.body.queryResult.parameters.food}`,
+      headers: {
+        'X-Mashape-Key': apiKey,
+        'X-Mashape-Host': host
+      },
+    };
+    try {
+      const response = await axios.get(config);
+      searchResult = response.data;
+      console.log("test1");
+    } catch (error) {
+      console.log(error);
     }
-    console.log("i'm here")
-  });
+  };
+
+  searchQuery();
 
   sessionsStorage[conv.id] = {};
   if (searchResult.results.length > 2) {
