@@ -195,13 +195,13 @@ googleflow.intent('Repeat Step', conv => {
   console.log(step);
   console.log(stepNumber);
 
-  if (!sessionsStorage[conv.id].currentRecipe.instructions[stepNumber]){
+  if (!sessionsStorage[conv.id].currentRecipe.instructions[stepNumber-1]){
     conv.ask("Sorry, I don't think I know that step, could you try again?");
     return;
   }
   let response = sessionsStorage[conv.id].currentRecipe.instructions[stepNumber - 1];
   sessionsStorage[conv.id].currentRecipe.currentStep = response;
-  sessionsStorage[conv.id].currentRecipe.counter = sessionsStorage[conv.id].currentRecipe.ingredients.length + stepNumber - 1;
+  sessionsStorage[conv.id].currentRecipe.counter = sessionsStorage[conv.id].currentRecipe.ingredients.length + stepNumber;
   conv.ask(`Step ${stepNumber}: ${response}`);
 });
 
