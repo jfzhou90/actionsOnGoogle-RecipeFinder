@@ -210,6 +210,7 @@ googleflow.intent('Find Ingredient', conv => {
     conv.ask("Hmmm? I don't remember that we looked for any recipe, let's try finding one together.")
     return;
   }
+  console.log(conv.body.queryResult.parameters.ingredients);
   let allIngredientsArray = sessionsStorage[conv.id].currentRecipe.ingredients;
   let matchedIngredient = allIngredientsArray.filter(ingredient => ingredient.includes(conv.body.queryResult.parameters.ingredients));
   if(!matchedIngredient || matchedIngredient.length == 0){
