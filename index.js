@@ -74,17 +74,25 @@ googleflow.intent('Query Recipe', async conv => {
   const searchQuery = async () => {
     let tempUrl = baseUrl + 'search?number=10&offset=0&query=' + conv.body.queryResult.parameters.food;
     console.log(tempUrl);
-    let options = {
-      method:'get',
-      url: tempUrl,
-      headers: {
-        'X-Mashape-Key': apiKey,
-        'X-Mashape-Host': host
-      },
-    };
+    // let options = {
+    //   method:'get',
+    //   url: tempUrl,
+    //   headers: {
+    //     'X-Mashape-Key': apiKey,
+    //     'X-Mashape-Host': host
+    //   },
+    // };
     try {
-      const response = await axios.get(options);
-      searchResult = response.data;
+      const response = await axios({
+        method: 'get',
+        url: tempUrl,
+        headers: {
+          'X-Mashape-Key': apiKey,
+          'X-Mashape-Host': host
+        }
+      }).then(response => {
+        searchResult = response.data;
+      })
       console.log("test1");
     } catch (error) {
       console.log(error);
