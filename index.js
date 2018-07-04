@@ -210,12 +210,12 @@ googleflow.intent('Find Ingredient', conv => {
     conv.ask("Hmmm? I don't remember that we looked for any recipe, let's try finding one together.")
     return;
   }
-  console.log(conv.body.queryResult.parameters.ingredients);
+
   let allIngredientsArray = sessionsStorage[conv.id].currentRecipe.ingredients;
   let term = conv.body.queryResult.parameters.ingredients
   var splits = term.split(' ', 1);
-  console.log(splits);
   let matchedIngredient = allIngredientsArray.filter(ingredient => ingredient.includes(splits[0]));
+  
   if(!matchedIngredient || matchedIngredient.length == 0){
     conv.ask("Don't think we're using that ingredient. Are you sure we're putting that into our food?");
     return;
