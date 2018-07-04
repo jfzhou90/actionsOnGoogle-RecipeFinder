@@ -59,7 +59,7 @@ googleflow.intent('Default Welcome Intent', conv => {
 
 // Intent in Dialogflow called `Query Recipe`
 googleflow.intent('Query Recipe', conv => {
-  sessionsStorage[conv.id] = { currentRecipe: {} };
+  sessionsStorage[conv.id] = {};
 
   if (!conv.surface.capabilities.has('actions.capability.SCREEN_OUTPUT')) {
     conv.ask('Sorry, try this on a screen device.');
@@ -112,6 +112,7 @@ googleflow.intent('Item Selected', (conv, params, option) => {
 
   // prefetch recipes here. replace getOne() with request call when app ready for deploy
   let recipe = fakeData.getOne();
+  sessionsStorage[conv.id].currentRecipe = {} 
   sessionsStorage[conv.id].currentRecipe.ingredients = [];
   sessionsStorage[conv.id].currentRecipe.instructions = [];
   sessionsStorage[conv.id].currentRecipe.currentStep = null;
@@ -124,7 +125,6 @@ googleflow.intent('Item Selected', (conv, params, option) => {
   recipe.analyzedInstructions[0].steps.forEach(step => {
     sessionsStorage[conv.id].currentRecipe.instructions.push(step.step);
   })
-  console.log(sessionsStorage[conv.id].currentRecipe.instructions)
 });
 
 // read all ingredients
@@ -191,9 +191,9 @@ googleflow.intent('Repeat Step', conv => {
     stepNumber = 2;
   } else if (step == 'third') {
     stepNumber = 3;
+  } else if (step == 'last') {
+    stepNumber = sessionsStorage[conv.id].currentRecipe.ingredients.length;
   }
-  console.log(step);
-  console.log(stepNumber);
 
   if (!sessionsStorage[conv.id].currentRecipe.instructions[stepNumber-1]){
     conv.ask("Sorry, I don't think I know that step, could you try again?");
@@ -203,6 +203,20 @@ googleflow.intent('Repeat Step', conv => {
   sessionsStorage[conv.id].currentRecipe.currentStep = response;
   sessionsStorage[conv.id].currentRecipe.counter = sessionsStorage[conv.id].currentRecipe.ingredients.length + stepNumber;
   conv.ask(`Step ${stepNumber}: ${response}`);
+});
+
+googleflow.intent('Find Ingredient', conv => {
+  if (!sessionsStorage[conv.id] || !sessionsStorage[conv.id].currentRecipe || !sessionsStorage[conv.id].currentRecipe.ingredients) {
+    conv.ask("Hmmm? I don't remember that we looked for any recipe, let's try finding one together.")
+    return;
+  }
+  let allIngredientsArray = sessionsStorage[conv.id].currentRecipe.ingredients;
+  let matchedIngredient = allIngredientsArray.filter(ingredient => ingredient.includes(conv.body.queryResult.parameters.food));
+  if(!matchedIngredient || matchedIngredient.length == 0){
+    conv.ask("Don't think we're using that ingredient. Are you sure we're putting that into our food?");
+    return;
+  }
+  conv.ask(matchedIngredient[0]);
 });
 
 googleflow.intent('Repeat', conv => {
