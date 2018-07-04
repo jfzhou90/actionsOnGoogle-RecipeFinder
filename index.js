@@ -4,7 +4,11 @@ const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 const routes = require('./routes/dialogFlowRoutes')
 const WtoN = require('words-to-num');
-const { dialogflow, BasicCard, BrowseCarousel, BrowseCarouselItem, Button, Carousel, Image, LinkOutSuggestion, List, MediaObject, Suggestions, SimpleResponse, Table } = require('actions-on-google');
+const request = require('request');
+const { dialogflow, BasicCard, BrowseCarousel, Carousel, Image, LinkOutSuggestion, ListSimpleResponse } = require('actions-on-google');
+const baseUrl = 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/';
+const apiKey = 'kVM7CT6wCYmshTU7EIozWKueIIuvp1T4lifjsn8lzCKEbe9W7d';
+const host = 'spoonacular-recipe-food-nutrition-v1.p.mashape.com'
 
 //----------------------------------------------------------- Express server side ----------------------------------------------------------//
 const app = express();
@@ -59,16 +63,29 @@ googleflow.intent('Default Welcome Intent', conv => {
 
 // Intent in Dialogflow called `Query Recipe`
 googleflow.intent('Query Recipe', conv => {
-  sessionsStorage[conv.id] = {};
-
   if (!conv.surface.capabilities.has('actions.capability.SCREEN_OUTPUT')) {
     conv.ask('Sorry, try this on a screen device.');
     return;
   }
 
-  // Replace this with fake data with request call when app is ready for deployment
   let searchResult = fakeData.getAll();
+  let options = {
+    url: baseUrl + `search?number=10&offset=0&query=${conv.body.queryResult.parameters.food}`,
+    headers: {
+      'X-Mashape-Key': apiKey,
+      'X-Mashape-Host': host
+    },
+  };
 
+  // Replace this with fake data with request call when app is ready for deployment
+  let searchedResults = request.get(options, function (error, response, body) {
+    console.log(response);
+    console.log(body);
+  });
+  console.log(searchedResults);
+
+
+  sessionsStorage[conv.id] = {};
   if (searchResult.results.length > 2) {
     let carouselObj = { items: {} };
 
@@ -94,7 +111,7 @@ googleflow.intent('Query Recipe', conv => {
 
 googleflow.intent('Item Selected', (conv, params, option) => {
   let response = 'You did not select any item from the list or carousel';
-  sessionsStorage[conv.id].currentRecipe = {} 
+  sessionsStorage[conv.id].currentRecipe = {}
   if (option && sessionsStorage[conv.id].hasOwnProperty(option)) {
     sessionsStorage[conv.id].currentRecipe.id = sessionsStorage[conv.id][option].id;
 
@@ -170,7 +187,7 @@ googleflow.intent('Step by Step', conv => {
     if (newCount == instructionLength - 1) {
       response += ". \nThat's the last step, please enjoy."
     }
-    conv.ask(`Step ${newCount+1}: ${response}`);
+    conv.ask(`Step ${newCount + 1}: ${response}`);
     count++;
     sessionsStorage[conv.id].currentRecipe.counter = count;
     return;
@@ -185,7 +202,7 @@ googleflow.intent('Repeat Step', conv => {
   }
   let step = conv.body.queryResult.parameters.number;
   let stepNumber = WtoN.convert(step);
-  if (step == 'first'){
+  if (step == 'first') {
     stepNumber = 1;
   } else if (step == 'second') {
     stepNumber = 2;
@@ -194,10 +211,8 @@ googleflow.intent('Repeat Step', conv => {
   } else if (conv.body.queryResult.queryText.includes('last')) {
     stepNumber = sessionsStorage[conv.id].currentRecipe.instructions.length;
   }
-  console.log(sessionsStorage[conv.id].currentRecipe.instructions.length)
-  console.log(step);
-  console.log(stepNumber);
-  if (!sessionsStorage[conv.id].currentRecipe.instructions[stepNumber-1]){
+
+  if (!sessionsStorage[conv.id].currentRecipe.instructions[stepNumber - 1]) {
     conv.ask("Sorry, I don't think I know that step, could you try again?");
     return;
   }
@@ -218,7 +233,7 @@ googleflow.intent('Find Ingredient', conv => {
   var splits = term.split(' ', 1);
   let matchedIngredient = allIngredientsArray.filter(ingredient => ingredient.includes(splits[0]));
 
-  if(!matchedIngredient || matchedIngredient.length == 0){
+  if (!matchedIngredient || matchedIngredient.length == 0) {
     conv.ask("Don't think we're using that ingredient. Are you sure we're putting that into our food?");
     return;
   }
