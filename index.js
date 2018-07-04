@@ -68,20 +68,12 @@ googleflow.intent('Query Recipe', async conv => {
     return;
   }
 
-  let searchResult = fakeData.getAll();
+  let searchResult
+  let encodedString = conv.body.queryResult.parameters.food.replace(" ", "+")
 
   // Replace this with fake data with request call when app is ready for deployment
   const searchQuery = async () => {
-    let tempUrl = baseUrl + 'search?number=10&offset=0&query=' + conv.body.queryResult.parameters.food;
-    console.log(tempUrl);
-    // let options = {
-    //   method:'get',
-    //   url: tempUrl,
-    //   headers: {
-    //     'X-Mashape-Key': apiKey,
-    //     'X-Mashape-Host': host
-    //   },
-    // };
+    let tempUrl = `${baseUrl}search?number=10&offset=0&query=${encodedString}`;
     try {
       const response = await axios({
         method: 'get',
@@ -91,10 +83,8 @@ googleflow.intent('Query Recipe', async conv => {
           'X-Mashape-Host': host
         }
       }).then(response => {
-        console.log(response);
         searchResult = response.data;
       })
-      console.log("test1");
     } catch (error) {
       console.log(error);
     }
@@ -119,7 +109,6 @@ googleflow.intent('Query Recipe', async conv => {
       // saving current search to session, so it can be used later
       sessionsStorage[conv.id][dish.title] = { id: dish.id, url: searchResult.baseUri + dish.imageUrls }
     });
-    console.log("2" + searchResult)
 
     conv.ask(`Here are some of recipes for ${conv.body.queryResult.parameters.food}. Click on one to get started.`);
     // Create a carousel
