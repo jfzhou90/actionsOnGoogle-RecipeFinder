@@ -183,7 +183,7 @@ googleflow.intent('Repeat Step', conv => {
     conv.ask("Hmmm? I don't remember that we looked for any recipe, let's try finding one together.")
     return;
   }
-  console.log(conv.body.queryResult.parameters)
+  console.log(conv.body)
   let step = conv.body.queryResult.parameters.number;
   let stepNumber = WtoN.convert(step);
   if (step == 'first'){
