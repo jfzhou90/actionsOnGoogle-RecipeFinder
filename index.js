@@ -201,7 +201,7 @@ googleflow.intent('Repeat Step', conv => {
   }
   let response = sessionsStorage[conv.id].currentRecipe.instructions[stepNumber - 1];
   sessionsStorage[conv.id].currentRecipe.currentStep = response;
-  sessionsStorage[conv.id].currentRecipe.counter = sessionsStorage[conv.id].currentRecipe.ingredient.length + stepNumber - 1;
+  sessionsStorage[conv.id].currentRecipe.counter = sessionsStorage[conv.id].currentRecipe.ingredients.length + stepNumber - 1;
   conv.ask(`Step ${stepNumber}: ${response}`);
 });
 
