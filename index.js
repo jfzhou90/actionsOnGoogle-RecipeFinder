@@ -184,11 +184,11 @@ googleflow.intent('Repeat Step', conv => {
   }
   let step = conv.body.queryResult.parameters.number;
   let stepNumber = WtoN.convert(step);
-  if (step = 'first'){
+  if (step == 'first'){
     stepNumber = 1;
-  } else if (step = 'second') {
+  } else if (step == 'second') {
     stepNumber = 2;
-  } else if (step = 'third') {
+  } else if (step == 'third') {
     stepNumber = 3;
   }
   console.log(step);
