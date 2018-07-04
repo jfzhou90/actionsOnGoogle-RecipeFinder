@@ -78,13 +78,13 @@ googleflow.intent('Query Recipe', async conv => {
   };
 
   // Replace this with fake data with request call when app is ready for deployment
-  await request.get(options, function (error, response, body) {
-    if(body){
-      console.log(body);
+  await Promise.all([request.get(options, async (error, response, body) => {
+    if(body.results.length != 0){
       searchResult = body;
     }
-  });
-
+  })]);
+  
+  console.log("1" + searchResult);
   sessionsStorage[conv.id] = {};
   if (searchResult.results.length > 2) {
     let carouselObj = { items: {} };
@@ -102,6 +102,7 @@ googleflow.intent('Query Recipe', async conv => {
       // saving current search to session, so it can be used later
       sessionsStorage[conv.id][dish.title] = { id: dish.id, url: searchResult.baseUri + dish.imageUrls }
     });
+    console.log("1" + searchResult)
 
     conv.ask(`Here are some of recipes for ${conv.body.queryResult.parameters.food}. Click on one to get started.`);
     // Create a carousel
