@@ -134,8 +134,9 @@ googleflow.intent('All Ingredients', conv => {
   }
   let allIngredients = sessionsStorage[conv.id].currentRecipe.ingredients.join('.\n');
   sessionsStorage[conv.id].currentRecipe.counter = sessionsStorage[conv.id].currentRecipe.ingredients.length;
-
-  conv.ask(`${allIngredients}.\n Would you like me to read the instructions?`);
+  let response = `${allIngredients}.\n Would you like me to read the instructions?`;
+  sessionsStorage[conv.id].currentRecipe.currentStep = response;
+  conv.ask(response);
 });
 
 googleflow.intent('Step by Step', conv => {
@@ -167,7 +168,7 @@ googleflow.intent('Step by Step', conv => {
     let response = sessionsStorage[conv.id].currentRecipe.instructions[newCount];
     sessionsStorage[conv.id].currentRecipe.currentStep = response;
     if (newCount == instructionLength - 1) {
-      response += "That's the last step, please enjoy."
+      response += ". \nThat's the last step, please enjoy."
     }
     conv.ask(response);
     count++;
