@@ -62,7 +62,7 @@ googleflow.intent('Default Welcome Intent', conv => {
 })
 
 // Intent in Dialogflow called `Query Recipe`
-googleflow.intent('Query Recipe', conv => {
+googleflow.intent('Query Recipe', async conv => {
   if (!conv.surface.capabilities.has('actions.capability.SCREEN_OUTPUT')) {
     conv.ask('Sorry, try this on a screen device.');
     return;
@@ -78,7 +78,7 @@ googleflow.intent('Query Recipe', conv => {
   };
 
   // Replace this with fake data with request call when app is ready for deployment
-  request.get(options, (error, response, body) => {
+  await request.get(options, (error, response, body) => {
     if (body.results) {
       searchResult = body;
       sessionsStorage[conv.id] = {};
