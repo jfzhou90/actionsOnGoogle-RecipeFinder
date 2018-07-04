@@ -78,12 +78,12 @@ googleflow.intent('Query Recipe', conv => {
   };
 
   // Replace this with fake data with request call when app is ready for deployment
-  let searchedResults = request.get(options, function (error, response, body) {
-    console.log(response);
-    console.log(body);
+  request.get(options, function (error, response, body) {
+    if(body){
+      console.log(body);
+      searchResult = body;
+    }
   });
-  console.log(searchedResults);
-
 
   sessionsStorage[conv.id] = {};
   if (searchResult.results.length > 2) {
