@@ -188,6 +188,17 @@ googleflow.intent('All Ingredients', conv => {
   sessionsStorage[conv.id].currentRecipe.currentStep = response;
   conv.ask(response);
 });
+googleflow.intent('Read Instructions', conv => {
+  if (!sessionsStorage[conv.id] || !sessionsStorage[conv.id].currentRecipe.instructions || sessionsStorage[conv.id].currentRecipe.instructions.length == 0) {
+    conv.ask("I don't have anything. Let's find a recipe together.");
+    return;
+  }
+  let allInstructions = sessionsStorage[conv.id].currentRecipe.instructions.join('.\n');
+  sessionsStorage[conv.id].currentRecipe.counter = 0;
+  let response = `${allInstructions}.\nPlease enjoy :)`;
+  sessionsStorage[conv.id].currentRecipe.currentStep = response;
+  conv.ask(response);
+});
 
 googleflow.intent('Step by Step', conv => {
   if (!sessionsStorage[conv.id] || sessionsStorage[conv.id].currentRecipe.ingredients.length == 0 || sessionsStorage[conv.id].currentRecipe.instructions.length == 0) {
