@@ -144,8 +144,8 @@ googleflow.intent('Item Selected', async (conv, params, option) => {
         method: 'get',
         url: tempUrl,
         headers: {
-          'X-Mashape-Key': apiKey,
-          'X-Mashape-Host': host
+          'X-Mashape-Key': [keys.apiKey],
+          'X-Mashape-Host': [keys.host]
         }
       }).then(response => {
         recipe = response.data;
@@ -303,8 +303,8 @@ googleflow.intent('Joke', async conv => {
         method: 'get',
         url: tempUrl,
         headers: {
-          'X-Mashape-Key': apiKey,
-          'X-Mashape-Host': host
+          'X-Mashape-Key': [keys.apiKey],
+          'X-Mashape-Host': [keys.host]
         }
       }).then(response => {
         conv.ask("Here's a joke: "+ response.data.text);
