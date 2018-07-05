@@ -310,7 +310,7 @@ googleflow.intent('Joke', async conv => {
           'X-Mashape-Host': host
         }
       }).then(response => {
-        console.log(response);
+        console.log(response.body);
         conv.ask("Here's a joke: "+ response.data.text);
         return;
       })
