@@ -310,7 +310,7 @@ googleflow.intent('Joke', conv => {
           'X-Mashape-Host': host
         }
       }).then(response => {
-        conv.ask(response);
+        conv.ask("Here's a joke: "+ response);
         return;
       })
     } catch (error) {
@@ -318,7 +318,7 @@ googleflow.intent('Joke', conv => {
     }
   };
 
-  await searchRecipe();
+  await tellJoke();
 })
 
 // Intent in Dialogflow called `Goodbye`
