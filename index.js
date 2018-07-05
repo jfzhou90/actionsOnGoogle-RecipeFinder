@@ -7,8 +7,6 @@ const WtoN = require('words-to-num');
 const axios = require("axios");
 const { dialogflow, BasicCard, BrowseCarousel, Carousel, Image, LinkOutSuggestion, ListSimpleResponse } = require('actions-on-google');
 const baseUrl = 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/';
-const apiKey = 'kVM7CT6wCYmshTU7EIozWKueIIuvp1T4lifjsn8lzCKEbe9W7d';
-const host = 'spoonacular-recipe-food-nutrition-v1.p.mashape.com'
 
 //----------------------------------------------------------- Express server side ----------------------------------------------------------//
 const app = express();
@@ -78,8 +76,8 @@ googleflow.intent('Query Recipe', async conv => {
         method: 'get',
         url: tempUrl,
         headers: {
-          'X-Mashape-Key': apiKey,
-          'X-Mashape-Host': host
+          'X-Mashape-Key': [keys.apiKey],
+          'X-Mashape-Host': [keys.host]
         }
       }).then(response => {
         searchResult = response.data;
