@@ -74,7 +74,6 @@ googleflow.intent('Query Recipe', async conv => {
 
   const searchQuery = async () => {
     let tempUrl = `${baseUrl}search?number=10&offset=0&query=${encodedString}`;
-    console.log('this is group: '+tempUrl);
     try {
       const response = await axios({
         method: 'get',
@@ -143,7 +142,6 @@ googleflow.intent('Item Selected', async (conv, params, option) => {
 
   const searchRecipe = async () => {
     let tempUrl = `${baseUrl}${sessionsStorage[conv.id][option].id}/information`;
-    console.log('this is single: '+tempUrl);
     try {
       const response = await axios({
         method: 'get',
@@ -299,6 +297,29 @@ googleflow.intent('Restart', conv => {
   sessionsStorage[conv.id].currentRecipe.counter = 0;
   conv.ask('Would you like me to real all ingredients or one at a time?');
 });
+
+googleflow.intent('Joke', conv => {
+  const tellJoke = async () => {
+    let tempUrl = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food/jokes/random";
+    try {
+      const response = await axios({
+        method: 'get',
+        url: tempUrl,
+        headers: {
+          'X-Mashape-Key': apiKey,
+          'X-Mashape-Host': host
+        }
+      }).then(response => {
+        conv.ask(response);
+        return;
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  await searchRecipe();
+})
 
 // Intent in Dialogflow called `Goodbye`
 googleflow.intent('Goodbye', conv => {
