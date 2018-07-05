@@ -298,7 +298,7 @@ googleflow.intent('Restart', conv => {
   conv.ask('Would you like me to real all ingredients or one at a time?');
 });
 
-googleflow.intent('Joke', conv => {
+googleflow.intent('Joke', async conv => {
   const tellJoke = async () => {
     let tempUrl = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food/jokes/random";
     try {
@@ -318,7 +318,7 @@ googleflow.intent('Joke', conv => {
     }
   };
 
-  tellJoke();
+  await tellJoke();
 })
 
 // Intent in Dialogflow called `Goodbye`
