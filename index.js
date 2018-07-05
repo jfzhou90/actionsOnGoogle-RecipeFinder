@@ -318,7 +318,7 @@ googleflow.intent('Joke', conv => {
     }
   };
 
-  await tellJoke();
+  tellJoke();
 })
 
 // Intent in Dialogflow called `Goodbye`
