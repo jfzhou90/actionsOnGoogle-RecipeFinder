@@ -70,7 +70,6 @@ googleflow.intent('Query Recipe', async conv => {
 
   let searchResult;
   let encodedString = conv.body.queryResult.parameters.food.replace(" ", "+")
-  console.log(conv.body.queryResult.parameters.food);
 
   const searchQuery = async () => {
     let tempUrl = `${baseUrl}search?number=10&offset=0&query=${encodedString}`;
@@ -310,7 +309,6 @@ googleflow.intent('Joke', async conv => {
           'X-Mashape-Host': host
         }
       }).then(response => {
-        console.log(response);
         conv.ask("Here's a joke: "+ response.data.text);
         return;
       })
