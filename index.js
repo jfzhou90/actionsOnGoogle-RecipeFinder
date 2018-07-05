@@ -56,7 +56,7 @@ googleflow.middleware((conv) => {
 googleflow.intent('Default Welcome Intent', conv => {
   conv.ask('Hi, I\'m Charlie, I\'m your recipe buddy. What shall we cook today?');
   conv.ask(new Image({
-    url: 'https://cdn.pixabay.com/photo/2016/01/10/18/59/charlie-brown-1132276_960_720.jpg',
+    url: 'https://i.pinimg.com/736x/28/ca/34/28ca349fb4e81febd85eec6fa3bb31c4--peanuts-cartoon-peanuts-snoopy.jpg',
     alt: 'Charlie Brown',
   }))
 })
@@ -70,6 +70,7 @@ googleflow.intent('Query Recipe', async conv => {
 
   let searchResult;
   let encodedString = conv.body.queryResult.parameters.food.replace(" ", "+")
+  console.log(conv.body.queryResult.parameters.food);
 
   const searchQuery = async () => {
     let tempUrl = `${baseUrl}search?number=10&offset=0&query=${encodedString}`;
@@ -100,7 +101,7 @@ googleflow.intent('Query Recipe', async conv => {
     searchResult.results.forEach(dish => {
       carouselObj.items[dish.title] = {
         title: dish.title,
-        description: `${dish.servings} servings.\n Ready in ${dish.readyInMinutes} minutes.`,
+        description: `${dish.servings} servings.\nReady in ${dish.readyInMinutes} minutes.`,
         image: new Image({
           url: searchResult.baseUri + dish.imageUrls,
           alt: dish.title
@@ -113,6 +114,8 @@ googleflow.intent('Query Recipe', async conv => {
     conv.ask(`Here are some of recipes for ${conv.body.queryResult.parameters.food}. Click on one to get started.`);
     // Create a carousel
     conv.ask(new Carousel(carouselObj));
+  } else {
+    conv.ask('Sorry, I could not find any results.');
   }
 })
 
@@ -181,7 +184,7 @@ googleflow.intent('All Ingredients', conv => {
   }
   let allIngredients = sessionsStorage[conv.id].currentRecipe.ingredients.join('.\n');
   sessionsStorage[conv.id].currentRecipe.counter = sessionsStorage[conv.id].currentRecipe.ingredients.length;
-  let response = `${allIngredients}.\n Would you like me to read the instructions?`;
+  let response = `${allIngredients}.\nWould you like me to read the instructions?`;
   sessionsStorage[conv.id].currentRecipe.currentStep = response;
   conv.ask(response);
 });
