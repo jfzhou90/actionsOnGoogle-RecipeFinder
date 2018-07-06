@@ -297,7 +297,7 @@ googleflow.intent('Find Ingredient', conv => {
 
 googleflow.intent('Repeat', conv => {
   if (!sessionsStorage[conv.id] || !sessionsStorage[conv.id].currentRecipe || !sessionsStorage[conv.id].currentRecipe.currentStep) {
-    conv.ask("Hmmm? I don't remember that we looked for any recipe, let's try finding one together.")
+    conv.ask("Hmmm? I don't remember that we looked for any recipe, let's try start by saying \"I want salmon\".")
     return;
   }
   conv.ask(sessionsStorage[conv.id].currentRecipe.currentStep);
@@ -305,11 +305,11 @@ googleflow.intent('Repeat', conv => {
 
 googleflow.intent('Restart', conv => {
   if (!sessionsStorage[conv.id] || !sessionsStorage[conv.id].currentRecipe || !sessionsStorage[conv.id].currentRecipe.currentStep) {
-    conv.ask("Hmmm? I don't remember that we looked for any recipe, let's try finding one together.")
+    conv.ask("Hmmm? I don't remember that we looked for any recipe, let's try start by saying \"I want tacos\".")
     return;
   }
   sessionsStorage[conv.id].currentRecipe.counter = 0;
-  conv.ask('Would you like me to real all ingredients or one at a time?');
+  conv.ask('Would you like me to real all ingredients or one at a time? or say "Go to step 1" to start cooking.');
 });
 
 googleflow.intent('Joke', async conv => {
