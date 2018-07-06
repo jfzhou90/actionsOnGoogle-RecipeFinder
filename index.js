@@ -69,7 +69,7 @@ googleflow.middleware((conv) => {
 
 // -------------------------- Register handlers for Dialogflow intents --------------------//
 googleflow.intent('Default Welcome Intent', conv => {
-  conv.ask('Hi, I\'m Charlie, I\'m your recipe buddy. What shall we cook today?');
+  conv.ask('Hi, I\'m Charlie, I\'m your recipe buddy. What shall we cook today? Let\'s start by saying \"I want cookies\" or \"Let\'s try brownies.\".');
   conv.ask(new Image({
     url: 'https://i.pinimg.com/736x/28/ca/34/28ca349fb4e81febd85eec6fa3bb31c4--peanuts-cartoon-peanuts-snoopy.jpg',
     alt: 'Charlie Brown',
