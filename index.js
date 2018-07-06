@@ -2,26 +2,43 @@ const fakeData = require('./initial-data/initializaData');
 const express = require('express');
 const bodyParser = require('body-parser');
 const keys = require('./config/keys');
-const routes = require('./routes/dialogFlowRoutes')
 const WtoN = require('words-to-num');
 const axios = require("axios");
 const { dialogflow, BasicCard, BrowseCarousel, Carousel, Image, LinkOutSuggestion, ListSimpleResponse } = require('actions-on-google');
 const baseUrl = 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/';
+const mongoose = require('mongoose');
+const cookieSession = require('cookie-session');
+const passport = require('passport');
+const morgan = require('morgan');
+require('./models/User')
+require('./services/passport');
 
 //----------------------------------------------------------- Express server side ----------------------------------------------------------//
+
+mongoose.connect(keys.mongoURI, { useNewUrlParser: true })
+
 const app = express();
 app.use(
   bodyParser.urlencoded({
     extended: true
   })
 );
-
 app.use(bodyParser.json());
+app.use(morgan('dev'));
+
+app.use(
+  cookieSession({
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    keys: [keys.cookieKey]
+  })
+)
+app.use(passport.initialize())
+app.use(passport.session())
 
 // fake data section.
-fakeData.initializeData();
-let fakeGroup = fakeData.getAll();
-let fakeOne = fakeData.getOne();
+// fakeData.initializeData();
+// let fakeGroup = fakeData.getAll();
+// let fakeOne = fakeData.getOne();
 
 app.use(function (request, response, next) {
   response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-Authentication");
@@ -111,7 +128,7 @@ googleflow.intent('Query Recipe', async conv => {
     // Create a carousel
     conv.ask(new Carousel(carouselObj));
   } else {
-    conv.ask('Sorry, I could not find any results.');
+    conv.ask('Sorry, I could not find any results. You can ask me by saying "Let\'s try fish taco".');
   }
 })
 
@@ -121,7 +138,7 @@ googleflow.intent('Item Selected', async (conv, params, option) => {
   if (option && sessionsStorage[conv.id].hasOwnProperty(option)) {
     sessionsStorage[conv.id].currentRecipe.id = sessionsStorage[conv.id][option].id;
 
-    response = `You have selected ${option}. Would you like me to read all the ingredients or one at a time?`;
+    response = `${option}, Good choice. Would you like me to read all the ingredients or one at a time? You can interupt me by pressing the google button, or say "Okay, Google".`;
   } else {
     response = 'You selected an unknown item from the carousel';
   }
@@ -174,7 +191,7 @@ googleflow.intent('Item Selected', async (conv, params, option) => {
 // read all ingredients
 googleflow.intent('All Ingredients', conv => {
   if (!sessionsStorage[conv.id] || !sessionsStorage[conv.id].currentRecipe.ingredients || sessionsStorage[conv.id].currentRecipe.ingredients.length == 0) {
-    conv.ask("I don't have anything. Let's find a recipe together.");
+    conv.ask("I don't have anything. To find a recipe, you can ask me by saying 'Let's cook chicken wings'.");
     return;
   }
   let allIngredients = sessionsStorage[conv.id].currentRecipe.ingredients.join('.\n');
@@ -185,7 +202,7 @@ googleflow.intent('All Ingredients', conv => {
 });
 googleflow.intent('Read Instructions', conv => {
   if (!sessionsStorage[conv.id] || !sessionsStorage[conv.id].currentRecipe.instructions || sessionsStorage[conv.id].currentRecipe.instructions.length == 0) {
-    conv.ask("I don't have anything. Let's find a recipe together.");
+    conv.ask("I don't have anything. To find a recipe, you can ask me by saying 'Let's cook chicken wings'.");
     return;
   }
   let allInstructions = sessionsStorage[conv.id].currentRecipe.instructions.join('.\n');
@@ -197,7 +214,7 @@ googleflow.intent('Read Instructions', conv => {
 
 googleflow.intent('Step by Step', conv => {
   if (!sessionsStorage[conv.id] || sessionsStorage[conv.id].currentRecipe.ingredients.length == 0 || sessionsStorage[conv.id].currentRecipe.instructions.length == 0) {
-    conv.ask("I don't have anything. Let's find a recipe together.");
+    conv.ask("I don't have anything. To find a recipe, you can ask me by saying 'Let's cook chicken wings'.");
     return;
   }
 
@@ -235,7 +252,7 @@ googleflow.intent('Step by Step', conv => {
 
 googleflow.intent('Repeat Step', conv => {
   if (!sessionsStorage[conv.id] || !sessionsStorage[conv.id].currentRecipe.instructions) {
-    conv.ask("Hmmm? I don't remember that we looked for any recipe, let's try finding one together.")
+    conv.ask("Hmmm? I don't remember that we looked for any recipe, let's try finding one together. Start by saying 'Let\'s cook shrimp'. ")
     return;
   }
   let step = conv.body.queryResult.parameters.number;
@@ -262,7 +279,7 @@ googleflow.intent('Repeat Step', conv => {
 
 googleflow.intent('Find Ingredient', conv => {
   if (!sessionsStorage[conv.id] || !sessionsStorage[conv.id].currentRecipe || !sessionsStorage[conv.id].currentRecipe.ingredients) {
-    conv.ask("Hmmm? I don't remember that we looked for any recipe, let's try finding one together.")
+    conv.ask("Hmmm? I don't remember that we looked for any recipe, let's try finding one together. You can ask me by saying 'How much salt do I need?'.")
     return;
   }
 
@@ -272,7 +289,7 @@ googleflow.intent('Find Ingredient', conv => {
   let matchedIngredient = allIngredientsArray.filter(ingredient => ingredient.includes(splits[0]));
 
   if (!matchedIngredient || matchedIngredient.length == 0) {
-    conv.ask("Don't think we're using that ingredient. Are you sure we're putting that into our food?");
+    conv.ask("Don't think we're using that ingredient. Are you sure we're putting that into our food? Try again.");
     return;
   }
   conv.ask(matchedIngredient[0]);
