@@ -138,7 +138,7 @@ googleflow.intent('Item Selected', async (conv, params, option) => {
   if (option && sessionsStorage[conv.id].hasOwnProperty(option)) {
     sessionsStorage[conv.id].currentRecipe.id = sessionsStorage[conv.id][option].id;
 
-    response = `${option}, Good choice. Would you like me to read all the ingredients or one at a time? You can interupt me by pressing the google button, or say "Okay, Google".`;
+    response = `${option}, Good choice. Would you like me to read all the ingredients or one at a time? You can interupt me by pressing the google button, or say "Okay, Google". Or we can skip to the instructions, by saying "Go to Step 1".`;
   } else {
     response = 'You selected an unknown item from the carousel';
   }
