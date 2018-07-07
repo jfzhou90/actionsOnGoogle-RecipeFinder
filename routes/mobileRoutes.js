@@ -14,6 +14,7 @@ module.exports = app => {
               }
             }).then(response => {
               searchResult = response.data;
+              console.log("Random Recipe Sent");
               return response.send(searchResult)
             })
           } catch (error) {
