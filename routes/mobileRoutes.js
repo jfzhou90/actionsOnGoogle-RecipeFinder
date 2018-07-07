@@ -8,7 +8,7 @@ module.exports = app => {
         try {
             let result = await axios({
               method: 'get',
-              url: 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food/trivia/random',
+              url: 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/random?number=1',
               headers: {
                 'X-Mashape-Key': [keys.apiKey],
                 'X-Mashape-Host': [keys.host]
