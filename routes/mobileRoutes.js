@@ -6,17 +6,16 @@ const passport = require('passport');
 module.exports = app => {
     app.get('/api/randomRecipe', async (request, response) => {
         try {
-            const response = await axios({
+            let result = await axios({
               method: 'get',
               url: 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food/trivia/random',
               headers: {
                 'X-Mashape-Key': [keys.apiKey],
                 'X-Mashape-Host': [keys.host]
               }
-            }).then(response => {
-              console.log("Random Recipe Sent");
-              return response.send(response.data)
             })
+            console.log(result)
+            return response.send(result.data)
           } catch (error) {
             console.log(error);
           }
