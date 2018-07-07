@@ -14,8 +14,8 @@ module.exports = app => {
                 'X-Mashape-Host': [keys.host]
               }
             })
-            console.log(result.data.results[0])
-            return response.send(JSON.stringify(result.data.results[0]))
+            console.log(result.data.recipes[0])
+            return response.send(JSON.stringify(result.data.recipes[0]))
           } catch (error) {
             console.log(error);
           }
