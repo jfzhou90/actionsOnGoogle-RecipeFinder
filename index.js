@@ -39,9 +39,9 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 // fake data section.
-// fakeData.initializeData();
-// let fakeGroup = fakeData.getAll();
-// let fakeOne = fakeData.getOne();
+fakeData.initializeData();
+let fakeGroup = fakeData.getAll();
+let fakeOne = fakeData.getOne();
 
 app.use(function (request, response, next) {
   response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-Authentication");
