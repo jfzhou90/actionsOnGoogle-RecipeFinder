@@ -15,7 +15,7 @@ module.exports = app => {
               }
             })
             console.log(result.data)
-            return response.send(result.data)
+            return response.send(JSON.stringify(result.data))
           } catch (error) {
             console.log(error);
           }

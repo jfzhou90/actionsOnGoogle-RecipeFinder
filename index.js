@@ -15,7 +15,7 @@ require('./services/passport');
 
 //----------------------------------------------------------- Express server side ----------------------------------------------------------//
 
-mongoose.connect(keys.mongoURI, { useNewUrlParser: true })
+// mongoose.connect(keys.mongoURI, { useNewUrlParser: true })
 
 const app = express();
 app.use(
