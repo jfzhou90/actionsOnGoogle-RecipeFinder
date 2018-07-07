@@ -14,9 +14,8 @@ module.exports = app => {
                 'X-Mashape-Host': [keys.host]
               }
             }).then(response => {
-              let searchResult = response.data;
               console.log("Random Recipe Sent");
-              return response.send(searchResult)
+              return response.send(response.data)
             })
           } catch (error) {
             console.log(error);
