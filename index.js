@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 const WtoN = require('words-to-num');
 const axios = require("axios");
-const { dialogflow, BasicCard, BrowseCarousel, Carousel, Image, LinkOutSuggestion, ListSimpleResponse } = require('actions-on-google');
+const { dialogflow, BasicCard, Carousel, Image } = require('actions-on-google');
 const baseUrl = 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/';
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
@@ -32,6 +32,9 @@ app.use(
     keys: [keys.cookieKey]
   })
 )
+
+require('./routes/mobileRoutes')(app);
+// require('./routes/userRoutes')(app);
 app.use(passport.initialize())
 app.use(passport.session())
 
