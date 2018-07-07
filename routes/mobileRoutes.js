@@ -2,7 +2,7 @@ const axios = require("axios");
 const keys = require('../config/keys');
 
 const passport = require('passport');
-const fakeData = require('./initial-data/initializaData');
+const fakeData = require('../initial-data/initializaData');
 
 module.exports = app => {
     app.get('/api/randomRecipe', async (request, response) => {
