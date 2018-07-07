@@ -14,7 +14,7 @@ module.exports = app => {
                 'X-Mashape-Host': [keys.host]
               }
             })
-            console.log(result)
+            console.log(result.data)
             return response.send(result.data)
           } catch (error) {
             console.log(error);
