@@ -1,9 +1,9 @@
-import axios from 'axios';
+const axios = require("axios");
 
 const passport = require('passport');
 
 module.exports = app => {
-    app.get('/api/randomRecipe', (request, response) => {
+    app.get('/api/randomRecipe', async (request, response) => {
         try {
             const response = await axios({
               method: 'get',
