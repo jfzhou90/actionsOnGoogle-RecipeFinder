@@ -36,7 +36,7 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 
-// fake data section.
+// fake data for testing, so i dont burn my api calls
 fakeData.initializeData();
 let fakeGroup = fakeData.getAll();
 let fakeOne = fakeData.getOne();
@@ -337,15 +337,6 @@ googleflow.intent('Joke', async conv => {
   };
 
   await tellJoke();
-})
-
-// Intent in Dialogflow called `Goodbye`
-googleflow.intent('Goodbye', conv => {
-  conv.close('Thanks for cooking with me. See you later!')
-})
-
-googleflow.intent('Default Fallback Intent', conv => {
-  conv.ask(`I didn't understand. Can you repeat that??`)
 })
 
 express().use(bodyParser.json(), app, googleflow).listen(process.env.PORT || 8000, function () {
