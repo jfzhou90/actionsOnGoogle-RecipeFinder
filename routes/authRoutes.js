@@ -35,7 +35,7 @@ async function googleAuth(token) {
 }
 
 module.exports = app => {
-  app.get('/api/auth/google', async (req, res) => {
+  app.post('/api/auth/google', async (req, res) => {
     console.log('====================================');
     console.log(req.body);
     console.log('====================================');
