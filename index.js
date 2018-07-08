@@ -344,7 +344,7 @@ googleflow.intent('Save Recipe', conv => {
     conv.ask("Hmmm? I don't remember that we looked for any recipe, let's try start by saying \"I want tacos\".")
     return;
   }
-  console.log(conv.user)
+  console.log(conv.user.profile)
   conv.ask('Recipe saved, please check Recipe Keeper. Is there anything else I can do for you?');
 });
 
