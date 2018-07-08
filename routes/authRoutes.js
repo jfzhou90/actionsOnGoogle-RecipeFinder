@@ -40,6 +40,8 @@ module.exports = app => {
     console.log(req.body);
     console.log('====================================');
     const { provider, token } = req.body;
+    console.log(provider);
+    console.log(token);
     let userInfo;
 
     try {
