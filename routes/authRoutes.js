@@ -1,20 +1,27 @@
-const passport = require('passport')
+const passport = require('passport');
+const axios = require('axios');
+const mongoose = require('mongoose');
+const User = mongoose.model('users');
+const jwt = require('jsonwebtoken');
+const keys = require('../config/keys');
+
+const createToken = args =>
+  jwt.sign({ id: args._id }, keys.JWT_Secret);
 
 function getUserInfo(data, provider) {
   let fullName;
   let avatar;
 
   if (provider === 'google') {
-    fullName = `${data.give_name} ${data.family_name}`;
+    fullName = `${data.given_name} ${data.family_name}`;
     avatar = data.picture;
-  } else {
-    fullName = data.name;
-    avatar = data.picture.data.url;
-  }
+    googleId = data.id;
+  } 
 
   return {
     fullName,
     avatar,
+    googleId,
     email: data.email,
     providerData: {
       uid: data.id,
@@ -36,35 +43,21 @@ async function googleAuth(token) {
 
 module.exports = app => {
   app.post('/api/auth/google', async (req, res) => {
-    console.log('====================================');
-    console.log(req.body);
-    console.log('====================================');
     const { provider, token } = req.body;
-    console.log(provider);
-    console.log(token);
-    let userInfo;
 
     try {
-      if (provider === 'google') {
-        userInfo = await googleAuth(token);
-      } else {
-        userInfo = await facebookAuth(token);
-      }
+      let userInfo = await googleAuth(token);
 
+      // console.log(userInfo)
       const user = await User.findOrCreate(userInfo);
 
       console.log('====================================');
       console.log(user);
       console.log('====================================');
 
-      return res.status(200).json({
-        success: true,
-        user: {
-          id: user._id,
-        },
-        token: `JWT ${createToken(user)}`,
-      });
+      return res.status(200).send({success: true,user: {id: user._id,name: user.name},token: `JWT ${createToken(user)}`,});
     } catch (e) {
+      console.log(e)
       return res.status(400).json({ error: true, errorMessage: e.message });
     }
   }

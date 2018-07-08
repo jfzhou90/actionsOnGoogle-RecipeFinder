@@ -53,6 +53,7 @@ app.use(function (request, response, next) {
   next();
 });
 
+require('./routes/mobileRoutes')(app);
 require('./routes/authRoutes')(app);
 
 //----------------------------------------------------------- DialogFlow Side ------------------------------------------------------------------//

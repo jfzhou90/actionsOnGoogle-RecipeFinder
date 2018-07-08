@@ -10,13 +10,13 @@ userSchema.statics.findOrCreate = async function (args) {
   try {
     const user = await this.findOne({
       googleId: args.id,
-      name: args.fullName,
     });
-
+    console.log('args.full name is '+ args.fullName)
+    console.log(user)
     if (!user) {
-      return await this.create(args);
+      return await this.create({googleId: args.id, name: args.fullName});
     }
-
+    console.log(user)
     return user;
   } catch (e) {
     return e;
