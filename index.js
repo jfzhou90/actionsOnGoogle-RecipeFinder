@@ -32,8 +32,6 @@ app.use(
     keys: [keys.cookieKey]
   })
 )
-
-require('./routes/mobileRoutes')(app);
 // require('./routes/userRoutes')(app);
 app.use(passport.initialize())
 app.use(passport.session())
@@ -54,6 +52,8 @@ app.use(function (request, response, next) {
 
   next();
 });
+
+require('./routes/authRoutes')(app);
 
 //----------------------------------------------------------- DialogFlow Side ------------------------------------------------------------------//
 // stores sessions locally, resets everytime heroku sleeps or resets
