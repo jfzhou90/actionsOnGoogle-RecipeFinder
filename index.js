@@ -269,6 +269,8 @@ googleflow.intent('Repeat Step', conv => {
     stepNumber = 3;
   } else if (conv.body.queryResult.queryText.includes('last')) {
     stepNumber = sessionsStorage[conv.id].currentRecipe.instructions.length;
+  } else if (conv.body.queryResult.queryText.includes('time')){
+    stepNumber = 1;
   }
 
   if (!sessionsStorage[conv.id].currentRecipe.instructions[stepNumber - 1]) {
