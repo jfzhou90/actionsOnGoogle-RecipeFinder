@@ -16,7 +16,7 @@ module.exports = {
         fs.readFile(__dirname +'/pan-roasted-cauliflower.json', 'utf8', function (error, data) {
             if (error) throw error;
             individualCauliflower = JSON.parse(data);
-            console.log(`Server setup: ${individualCauliflower.spoonacularSourceUrl} loaded.`);
+            console.log(`Server setup: ${individualCauliflower.title} loaded.`);
         });
     },
 
