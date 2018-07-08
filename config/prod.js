@@ -5,5 +5,6 @@ module.exports = {
   apiHost: process.env.MASHAPE_HOST,
   googleClientID: process.env.GOOGLE_CLIENT_ID,
   googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  googleCallbackURL: process.env.GOOGLE_CALLBACK_URL
+  googleCallbackURL: process.env.GOOGLE_CALLBACK_URL,
+  JWT_Secret: 'qweasdhtedsfasd'
 };

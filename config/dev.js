@@ -6,5 +6,6 @@ module.exports = {
   googleClientID: '538375572942-1182bd6qk38faagu2hh6io1v3us5lfra.apps.googleusercontent.com',
   googleClientSecret: 'fzKJCz-OuL_jS0xe3Eags8Dv',
   googleCallbackURL: 'http://localhost:3000/auth/google/callback',
-  redirectDomain: 'http://localhost:5000'
+  redirectDomain: 'http://localhost:5000',
+  JWT_Secret: 'qweasdhtedsfasd'
 }
