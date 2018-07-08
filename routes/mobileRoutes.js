@@ -5,7 +5,7 @@ const passport = require('passport');
 const fakeData = require('../initial-data/initializaData');
 
 module.exports = app => {
-    app.get('/api/randomRecipe', async (request, response) => {
+    app.get('/randomRecipe', async (request, response) => {
         let fakeOne = fakeData.getOne();
         try {
             // let result = await axios({

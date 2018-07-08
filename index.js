@@ -12,6 +12,7 @@ const passport = require('passport');
 const morgan = require('morgan');
 require('./models/User')
 require('./services/passport');
+import { UserRoutes } from './routes/';
 
 //----------------------------------------------------------- Express server side ----------------------------------------------------------//
 
@@ -33,7 +34,7 @@ app.use(
   })
 )
 
-require('./routes/mobileRoutes')(app);
+app.use('/api', [UserRoutes]);
 // require('./routes/userRoutes')(app);
 app.use(passport.initialize())
 app.use(passport.session())
