@@ -1,5 +1,5 @@
 const passport = require('passport')
-const GoogleStrategy = require('passport-google-token').Strategy
+const GoogleTokenStrategy = require('passport-google-token').Strategy
 const mongoose = require('mongoose')
 const keys = require('../config/keys')
 
