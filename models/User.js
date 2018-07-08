@@ -11,8 +11,6 @@ userSchema.statics.findOrCreate = async function (args) {
     const user = await this.findOne({
       googleId: args.id,
     });
-    console.log('args.full name is '+ args.fullName)
-    console.log(user)
     if (!user) {
       return await this.create({googleId: args.id, name: args.fullName});
     }

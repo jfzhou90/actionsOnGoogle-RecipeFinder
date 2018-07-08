@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const morgan = require('morgan');
-require('./models/User')
+const User = require('./models/User')
 require('./services/passport');
 
 //----------------------------------------------------------- Express server side ----------------------------------------------------------//
@@ -339,12 +339,13 @@ googleflow.intent('Joke', async conv => {
   await tellJoke();
 })
 
-googleflow.intent('Save Recipe', conv => {
+googleflow.intent('Save Recipe', async conv => {
   if (!sessionsStorage[conv.id] || !sessionsStorage[conv.id].currentRecipe) {
     conv.ask("Hmmm? I don't remember that we looked for any recipe, let's try start by saying \"I want tacos\".")
     return;
   }
-  console.log(conv.user.id)
+  let user = await User.find({googleId}).exec({})
+
   conv.ask('Recipe saved, please check Recipe Keeper. Is there anything else I can do for you?');
 });
 
