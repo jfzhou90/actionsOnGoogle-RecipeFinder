@@ -1,12 +1,12 @@
 const passport = require('passport')
 
 module.exports = app => {
-  app.post('api/auth/google/', passport.authenticate('google-token'),
-    function (req, res) {
-      console.log('test')
-      res.send(req.user);
-    }
-  );
+  // app.post('api/auth/google/', passport.authenticate('google-token'),
+  //   function (req, res) {
+  //     console.log('test')
+  //     res.send(req.user);
+  //   }
+  // );
 
   app.get(
     '/auth/google/callback',
@@ -16,8 +16,8 @@ module.exports = app => {
     }
   );
 
-  app.get('/api/current_user', (req, res) => {
-    res.send(req.user)
+  app.post('/api/auth/google', (req, res) => {
+    res.send(req)
   })
 
   app.get('/api/logout', (req, res) => {
