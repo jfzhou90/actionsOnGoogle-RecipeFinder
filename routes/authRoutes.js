@@ -17,6 +17,7 @@ module.exports = app => {
   );
 
   app.post('/api/auth/google', (req, res) => {
+    console.log(req)
     res.send(req)
   })
 
