@@ -1,7 +1,7 @@
 const passport = require('passport')
 
 module.exports = app => {
-  app.post('/auth/google/', passport.authenticate('google-token'),
+  app.post('api/auth/google/', passport.authenticate('google-token'),
     function (req, res) {
       console.log('test')
       res.send(req.user);
