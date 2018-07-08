@@ -339,6 +339,15 @@ googleflow.intent('Joke', async conv => {
   await tellJoke();
 })
 
+googleflow.intent('Save Recipe', conv => {
+  if (!sessionsStorage[conv.id] || !sessionsStorage[conv.id].currentRecipe) {
+    conv.ask("Hmmm? I don't remember that we looked for any recipe, let's try start by saying \"I want tacos\".")
+    return;
+  }
+  console.log(conv.user)
+  conv.ask('Recipe saved, please check Recipe Keeper. Is there anything else I can do for you?');
+});
+
 express().use(bodyParser.json(), app, googleflow).listen(process.env.PORT || 8000, function () {
   console.log(`Server up and listening on ${process.env.PORT || 8000} `);
 });
