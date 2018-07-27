@@ -54,7 +54,6 @@ app.use(function (request, response, next) {
 });
 
 require('./routes/mobileRoutes')(app);
-require('./routes/authRoutes')(app);
 
 //----------------------------------------------------------- DialogFlow Side ------------------------------------------------------------------//
 // stores sessions locally, resets everytime heroku sleeps or resets
